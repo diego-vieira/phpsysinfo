@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+    <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+        }
+
+        .jumbotron {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+<div class="navbar navbar-fixed-top">
+    <div class="container">
+
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+
+        <a class="navbar-brand" href="#">phpSysInfo</a>
+
+        <div class="nav-collapse collapse">
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="container">
+
+    <div id="loader" style="display:none"><img src="gfx/ajaxLoader.gif"></div>
+
+    <h4>Vitals</h4>
+    <div class="row">
+        <div class="col-lg-6">
+            <table id="vitals" class="table table-bordered table-hover table-condensed table-striped">
+                <tr><td>Canonical Hostname</td><td><span data-bind="Hostname"/></td></tr>
+                <tr><td>Listening IP</td><td><span data-bind="IPAddr"/></td></tr>
+                <tr><td>Kernel Version</td><td><span data-bind="Kernel"/></td></tr>
+                <tr><td>Distro Name</td><td><span data-bind="Distro"/></td></tr>
+                <tr><td>Uptime</td><td><span data-bind="Uptime"/></td></tr>
+                <tr><td>Current Users</td><td><span data-bind="Users"/></td></tr>
+                <tr><td>Load Averages</td><td><span data-bind="LoadAvg"/></td></tr>
+            </table>
+        </div>
+
+        <div class="col-lg-6">
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<script src="js/vendor/jquery.min.js"></script>
+<script src="js/vendor/bootstrap.min.js"></script>
+<script src="js/vendor/transparency.min.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
