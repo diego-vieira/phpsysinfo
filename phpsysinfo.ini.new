@@ -27,13 +27,6 @@ DEBUG=false
 ;
 LOG=false
 
-; Turn on/off compression for JavaScript file
-; - JS_COMPRESSION=false  //no compression (recommended with slow processor)
-; - JS_COMPRESSION="None"  //code minimizing
-; - JS_COMPRESSION="Normal"  //code packing
-;
-JS_COMPRESSION="Normal"
-
 ; Additional paths where to look for installed programs
 ; Example : ADD_PATHS="/opt/bin,/opt/sbin"
 ;
@@ -60,42 +53,6 @@ PLUGINS=false
 ; ********************************
 ;       DISPLAY PARAMETERS
 ; ********************************
-
-
-; Define the default display mode
-; auto: let user browser choose the mode
-; dynamic: use javascript to refresh data
-; static: static page (use metatag to reload page)
-;
-DEFAULT_DISPLAY_MODE="auto"
-
-
-; Define the default language
-;
-DEFAULT_LANG="en"
-
-
-; Define the default template
-;
-DEFAULT_TEMPLATE="phpsysinfo"
-
-
-; Show or hide language picklist
-;
-SHOW_PICKLIST_LANG=true
-
-
-; Show or hide template picklist
-;
-SHOW_PICKLIST_TEMPLATE=true
-
-
-; Define the interval for refreshing data in ms
-; - 0 = disabled
-; - 1000 = 1 second
-; Default is 60 seconds
-;
-REFRESH=60000
 
 
 ; Show a graph for current cpuload
