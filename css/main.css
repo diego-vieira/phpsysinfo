@@ -3,6 +3,7 @@ html {
 }
 
 body {
+    font-size: 13px;
     padding-top: 60px;
 }
 
@@ -20,4 +21,9 @@ body {
 
 h4 {
     color: #428bca;
+}
+
+thead {
+    background-color: #428bca;
+    color: #fff;
 }
