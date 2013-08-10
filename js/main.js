@@ -1,9 +1,9 @@
 $(document).ready(function () {
 
-    $(document).ajaxStart(function(){
+    $(document).ajaxStart(function () {
         $("#loader").show();
     });
-    $(document).ajaxStop(function(){
+    $(document).ajaxStop(function () {
         $("#loader").hide();
     });
 
@@ -11,7 +11,6 @@ $(document).ready(function () {
         dataType: "json",
         url: "xml.php?plugin=complete&json",
         success: function (data) {
-            json_data = data;
             console.log(data);
             renderVitals(data);
             renderHardware(data);
@@ -26,84 +25,119 @@ $(document).ready(function () {
 function renderVitals(data) {
     var directives = {
         Uptime: {
-            text: function() {
+            text: function () {
                 return secondsToString(this["Uptime"]);
             }
         },
         Distro: {
-            html: function() {
-                return "<img src=\"gfx/images/"+this["Distroicon"]+"\" style=\"width:24px\"/>" + this["Distro"];
+            html: function () {
+                return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:24px"/>' + this["Distro"];
             }
         }
     };
 
-    $('#vitals').render(data["Vitals"]["@attributes"],directives);
+    $('#vitals').render(data["Vitals"]["@attributes"], directives);
 }
 
 function renderHardware(data) {
-    $('#hardware').render(data["Hardware"]["CPU"]["CpuCore"][0]["@attributes"]);
+
+    var directives = {
+        Model: {
+            text: function () {
+                return this["CpuCore"].length + " x " +  this["CpuCore"][0]["@attributes"]["Model"];
+            }
+        }
+    }
+
+    $('#hardware').render(data["Hardware"]["CPU"],directives);
 }
 
 function renderMemory(data) {
     var directives = {
         Total: {
-            text: function() {
-                return bytesToSize(this["Total"]);
+            text: function () {
+                return bytesToSize(this["@attributes"]["Total"]);
             }
         },
         Free: {
-            text: function() {
-                return bytesToSize(this["Free"]);
+            text: function () {
+                return bytesToSize(this["@attributes"]["Free"]);
             }
         },
         Used: {
-            text: function() {
-                return bytesToSize(this["Used"]);
+            text: function () {
+                return bytesToSize(this["@attributes"]["Used"]);
             }
         },
         Usage: {
-            text: function() {
-                return this["Percent"]+"%";
+            html: function () {
+
+                if (this["Details"] == undefined) {
+                    return '<div class="progress">' +
+                        '<div class="progress-bar progress-bar-info" style="width: ' + this["@attributes"]["Percent"] + '%;"></div>' +
+                        '</div>' +
+                        '<div class="percent">' + this["@attributes"]["Percent"] + '% - ' +
+                        '</div>';
+                }
+                else {
+                    return '<div class="progress">' +
+                        '<div class="progress-bar progress-bar-info" style="width: ' + this["Details"]["@attributes"]["AppPercent"] + '%;"></div>' +
+                        '<div class="progress-bar progress-bar-warning" style="width: ' + this["Details"]["@attributes"]["CachedPercent"] + '%;"></div>' +
+                        '<div class="progress-bar progress-bar-danger" style="width: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%;"></div>' +
+                        '</div>' +
+                        '<div class="percent">' +
+                        'Total: ' + this["@attributes"]["Percent"] + '% ' +
+                        '<i>(App: ' + this["Details"]["@attributes"]["AppPercent"] + '% - ' +
+                        'Cache: ' + this["Details"]["@attributes"]["CachedPercent"] + '% - ' +
+                        'Buffers: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%' +
+                        ')</i></div>';
+                }
             }
         },
         Type: {
-            text: function() {
+            text: function () {
                 return "Physical Memory"
             }
         }
     };
 
-    $('#memory').render(data["Memory"]["@attributes"], directives);
+
+    var data_memory = {};
+    for(var i=0;i<data["Memory"]["Swap"].length;i++) {
+        data_memory.push(data["Memory"]["Swap"][i]["@attributes"]);
+    }
+
+   $('#memory').render(data["Memory"], directives);
 }
 
 function renderFilesystem(data) {
     var directives = {
         Total: {
-            text: function() {
+            text: function () {
                 return bytesToSize(this["Total"]);
             }
         },
         Free: {
-            text: function() {
+            text: function () {
                 return bytesToSize(this["Free"]);
             }
         },
         Used: {
-            text: function() {
+            text: function () {
                 return bytesToSize(this["Used"]);
             }
         },
         Percent: {
-            html: function() {
+            html: function () {
                 return '<div class="progress">' +
-                    '<div class="progress-bar" style="width: '+this["Percent"]+'%;"></div>' +
-                    '</div>' + '<div class="percent">' + this["Percent"]+'% <sub>('+this["Inodes"]+'%)</sub></div>';
+                    '<div class="progress-bar progress-bar-info" style="width: ' + this["Percent"] + '%;"></div>' +
+                    '</div>' + '<div class="percent">' + this["Percent"] + '%'; //<sub>('+this["Inodes"]+'%)</sub></div>';
             }
         }
     };
 
     var fs_data = [];
-    for(var i=0;i<data["FileSystem"]["Mount"].length;i++) {
+    for (var i = 0; i < data["FileSystem"]["Mount"].length; i++) {
         fs_data.push(data["FileSystem"]["Mount"][i]["@attributes"]);
     }
     $('#filesystem-data').render(fs_data, directives);
@@ -113,24 +147,24 @@ function renderFilesystem(data) {
 function renderNetwork(data) {
     var directives = {
         RxBytes: {
-            text: function() {
+            text: function () {
                 return bytesToSize(this["RxBytes"]);
             }
         },
         TxBytes: {
-            text: function() {
+            text: function () {
                 return bytesToSize(this["TxBytes"]);
             }
         },
         Drops: {
-            text: function() {
+            text: function () {
                 return this["Drops"] + "/" + this["Err"];
             }
         }
     };
 
     var network_data = [];
-    for(var i=0;i<data["Network"]["NetDevice"].length;i++) {
+    for (var i = 0; i < data["Network"]["NetDevice"].length; i++) {
         network_data.push(data["Network"]["NetDevice"][i]["@attributes"]);
     }
     $('#network-data').render(network_data, directives);
@@ -151,5 +185,5 @@ function secondsToString(seconds) {
     var numhours = Math.floor(((seconds % 31536000) % 86400) / 3600);
     var numminutes = Math.floor((((seconds % 31536000) % 86400) % 3600) / 60);
     var numseconds = Math.floor((((seconds % 31536000) % 86400) % 3600) % 60);
-    return numyears + " years " +  numdays + " days " + numhours + " hours " + numminutes + " minutes " + numseconds + " seconds";
+    return numyears + " years " + numdays + " days " + numhours + " hours " + numminutes + " minutes " + numseconds + " seconds";
 }
