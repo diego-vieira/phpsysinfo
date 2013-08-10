@@ -40,7 +40,7 @@
     <div class="row">
         <div class="col-lg-6">
             <h4>System Vitals</h4>
-            <table id="vitals" class="table table-bordered table-hover table-condensed table-striped">
+            <table id="vitals" class="table table-hover table-condensed">
                 <tr>
                     <td>Canonical Hostname</td>
                     <td><span data-bind="Hostname"/></td>
@@ -75,7 +75,7 @@
 
         <div class="col-lg-6">
             <h4>Hardware Information</h4>
-            <table id="hardware" class="table table-bordered table-hover table-condensed table-striped">
+            <table id="hardware" class="table table-hover table-condensed ">
                 <tr>
                     <td>CPU Model</td>
                     <td><span data-bind="Model"/></td>
@@ -87,23 +87,23 @@
     <div class="row">
         <div class="col-lg-12">
             <h4>Memory Usage</h4>
-            <table id="memory" class="table table-bordered table-hover table-condensed table-striped">
+            <table id="memory" class="table table-hover table-condensed ">
                 <thead>
                 <tr>
                     <th>Type</th>
                     <th>Usage</th>
-                    <th>Free</th>
-                    <th>Used</th>
-                    <th>Size</th>
+                    <th class="rightCell">Free</th>
+                    <th class="rightCell">Used</th>
+                    <th class="rightCell">Size</th>
                 </tr>
                 </thead>
                 <tbody id="memory-data">
                 <tr>
                     <td><span data-bind="Type"/></td>
                     <td><span data-bind="Usage"/></td>
-                    <td><span data-bind="Free"/></td>
-                    <td><span data-bind="Used"/></td>
-                    <td><span data-bind="Total"/></td>
+                    <td class="rightCell"><span data-bind="Free"/></td>
+                    <td class="rightCell"><span data-bind="Used"/></td>
+                    <td class="rightCell"><span data-bind="Total"/></td>
                 </tr>
                 </tbody>
             </table>
@@ -113,16 +113,16 @@
     <div class="row">
         <div class="col-lg-12">
             <h4>Mounted Filesystems</h4>
-            <table id="filesystem" class="table table-bordered table-hover table-condensed table-striped">
+            <table id="filesystem" class="table table-hover table-condensed">
                 <thead>
                 <tr>
                     <th>Mountpoint</th>
                     <th>Type</th>
                     <th>Partition</th>
                     <th>Usage</th>
-                    <th>Free</th>
-                    <th>Used</th>
-                    <th>Size</th>
+                    <th class="rightCell">Free</th>
+                    <th class="rightCell">Used</th>
+                    <th class="rightCell">Size</th>
                 </tr>
                 </thead>
                 <tbody id="filesystem-data">
@@ -131,9 +131,9 @@
                     <td><span data-bind="FSType"/></td>
                     <td><span data-bind="Name"/></td>
                     <td><span data-bind="Percent"/></td>
-                    <td><span data-bind="Free"/></td>
-                    <td><span data-bind="Used"/></td>
-                    <td><span data-bind="Total"/></td>
+                    <td class="rightCell"><span data-bind="Free"/></td>
+                    <td class="rightCell"><span data-bind="Used"/></td>
+                    <td class="rightCell"><span data-bind="Total"/></td>
                 </tr>
                 </tbody>
             </table>
@@ -143,21 +143,21 @@
     <div class="row">
         <div class="col-lg-6">
             <h4>Network Interface</h4>
-            <table id="network" class="table table-bordered table-hover table-condensed table-striped">
+            <table id="network" class="table table-hover table-condensed">
                 <thead>
                 <tr>
                     <th>Device</th>
-                    <th>Receive</th>
-                    <th>Sent</th>
-                    <th>Err/Drop</th>
+                    <th class="rightCell">Receive</th>
+                    <th class="rightCell">Sent</th>
+                    <th class="rightCell">Err/Drop</th>
                 </tr>
                 </thead>
                 <tbody id="network-data">
                 <tr>
                     <td><span data-bind="Name"/></td>
-                    <td><span data-bind="RxBytes"/></td>
-                    <td><span data-bind="TxBytes"/></td>
-                    <td><span data-bind="Drops"/></td>
+                    <td class="rightCell"><span data-bind="RxBytes"/></td>
+                    <td class="rightCell"><span data-bind="TxBytes"/></td>
+                    <td class="rightCell"><span data-bind="Drops"/></td>
                 </tr>
                 </tbody>
             </table>

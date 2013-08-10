@@ -6,3 +6,18 @@ body {
     padding-top: 60px;
 }
 
+.progress {
+    margin-bottom: 0;
+}
+
+.table td.rightCell, .table th.rightCell {
+    text-align: right;
+}
+
+.percent {
+    text-align: center;
+}
+
+h4 {
+    color: #428bca;
+}

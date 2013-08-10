@@ -96,8 +96,10 @@ function renderFilesystem() {
             }
         },
         Percent: {
-            text: function() {
-                return this["Percent"]+"%";
+            html: function() {
+                return '<div class="progress">' +
+                    '<div class="progress-bar" style="width: '+this["Percent"]+'%;"></div>' +
+                    '</div>' + '<div class="percent">' + this["Percent"]+'%</div>';
             }
         }
     };
@@ -141,8 +143,8 @@ function bytesToSize(bytes) {
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes == 0) return '0';
     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    if (i == 0) return bytes + ' ' + sizes[i];
-    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+    if (i == 0) return bytes + '' + sizes[i];
+    return (bytes / Math.pow(1024, i)).toFixed(1) + '' + sizes[i];
 }
 
 function secondsToString(seconds) {
