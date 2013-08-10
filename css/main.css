@@ -20,10 +20,15 @@ body {
 }
 
 h4 {
-    color: #428bca;
+    color: #fff;
+    background-color: #428bca;
+    padding: 5px;
 }
 
-thead {
+.navbar {
     background-color: #428bca;
+}
+
+.navbar-brand, .navbar-brand:hover {
     color: #fff;
 }
