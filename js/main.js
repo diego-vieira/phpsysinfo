@@ -17,17 +17,24 @@ $(document).ready(function () {
             console.log(data);
             renderVitals();
             renderHardware();
+            renderMemory();
             renderFilesystem();
             renderNetwork();
         }
     });
 });
 
+
 function renderVitals() {
     var directives = {
         Uptime: {
             text: function() {
                 return secondsToString(this["Uptime"]);
+            }
+        },
+        Distro: {
+            html: function() {
+                return "<img src=\"gfx/images/"+this["Distroicon"]+"\" style=\"width:24px\"/>" + this["Distro"];
             }
         }
     };
@@ -37,6 +44,38 @@ function renderVitals() {
 
 function renderHardware() {
     $('#hardware').render(json_data["Hardware"]["CPU"]["CpuCore"][0]["@attributes"]);
+}
+
+function renderMemory() {
+    var directives = {
+        Total: {
+            text: function() {
+                return bytesToSize(this["Total"]);
+            }
+        },
+        Free: {
+            text: function() {
+                return bytesToSize(this["Free"]);
+            }
+        },
+        Used: {
+            text: function() {
+                return bytesToSize(this["Used"]);
+            }
+        },
+        Usage: {
+            text: function() {
+                return this["Percent"]+"%";
+            }
+        },
+        Type: {
+            text: function() {
+                return "Physical Memory"
+            }
+        }
+    };
+
+    $('#memory').render(json_data["Memory"]["@attributes"], directives);
 }
 
 function renderFilesystem() {
