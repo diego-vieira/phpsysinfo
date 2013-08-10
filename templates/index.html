@@ -13,10 +13,6 @@
         body {
             padding-top: 60px;
         }
-
-        .jumbotron {
-            margin-top: 20px;
-        }
     </style>
 </head>
 
@@ -42,38 +38,118 @@
 </div>
 
 
-
 <div class="container">
 
     <div id="loader" style="display:none"><img src="gfx/ajaxLoader.gif"></div>
 
-    <h4>Vitals</h4>
+
     <div class="row">
         <div class="col-lg-6">
+            <h4>System Vitals</h4>
             <table id="vitals" class="table table-bordered table-hover table-condensed table-striped">
-                <tr><td>Canonical Hostname</td><td><span data-bind="Hostname"/></td></tr>
-                <tr><td>Listening IP</td><td><span data-bind="IPAddr"/></td></tr>
-                <tr><td>Kernel Version</td><td><span data-bind="Kernel"/></td></tr>
-                <tr><td>Distro Name</td><td><span data-bind="Distro"/></td></tr>
-                <tr><td>Uptime</td><td><span data-bind="Uptime"/></td></tr>
-                <tr><td>Current Users</td><td><span data-bind="Users"/></td></tr>
-                <tr><td>Load Averages</td><td><span data-bind="LoadAvg"/></td></tr>
+                <tr>
+                    <td>Canonical Hostname</td>
+                    <td><span data-bind="Hostname"/></td>
+                </tr>
+                <tr>
+                    <td>Listening IP</td>
+                    <td><span data-bind="IPAddr"/></td>
+                </tr>
+                <tr>
+                    <td>Kernel Version</td>
+                    <td><span data-bind="Kernel"/></td>
+                </tr>
+                <tr>
+                    <td>Distro Name</td>
+                    <td><span data-bind="Distro"/></td>
+                </tr>
+                <tr>
+                    <td>Uptime</td>
+                    <td><span data-bind="Uptime"/></td>
+                </tr>
+                <tr>
+                    <td>Current Users</td>
+                    <td><span data-bind="Users"/></td>
+                </tr>
+                <tr>
+                    <td>Load Averages</td>
+                    <td><span data-bind="LoadAvg"/></td>
+                </tr>
             </table>
         </div>
 
+
         <div class="col-lg-6">
-
-
+            <h4>Hardware Information</h4>
+            <table id="hardware" class="table table-bordered table-hover table-condensed table-striped">
+                <tr>
+                    <td>CPU Model</td>
+                    <td><span data-bind="Model"/></td>
+                </tr>
+            </table>
         </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h4>Memory Usage</h4>
+            <table id="memory" class="table table-bordered table-hover table-condensed table-striped">
+                <tr>
+                    <td></td>
+                    <td><span data-bind=""/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h4>Mounted Filesystems</h4>
+            <table id="filesystem" class="table table-bordered table-hover table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th>Mountpoint</th>
+                    <th>Type</th>
+                    <th>Partition</th>
+                    <th>Usage</th>
+                    <th>Free</th>
+                    <th>Used</th>
+                    <th>Size</th>
+                </tr>
+                </thead>
+                <tbody id="filesystem-data" >
+                <tr>
+                    <td><span data-bind="MountPoint"/></td>
+                    <td><span data-bind="FSType"/></td>
+                    <td><span data-bind="Name"/></td>
+                    <td><span data-bind="Percent"/></td>
+                    <td><span data-bind="Free"/></td>
+                    <td><span data-bind="Used"/></td>
+                    <td><span data-bind="Total"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>Network Interface</h4>
+            <table id="network" class="table table-bordered table-hover table-condensed table-striped">
+                <tr>
+                    <td></td>
+                    <td><span data-bind=""/></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
 
 
-
-<script src="js/vendor/jquery.min.js"></script>
-<script src="js/vendor/bootstrap.min.js"></script>
-<script src="js/vendor/transparency.min.js"></script>
-<script src="js/main.js"></script>
+    <script src="js/vendor/jquery.min.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/vendor/transparency.min.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 </html>
