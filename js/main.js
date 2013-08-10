@@ -129,8 +129,9 @@ function renderFilesystem(data) {
         },
         Percent: {
             html: function () {
-                return '<div class="progress">' +
-                    '<div class="progress-bar" style="width: '+this["Percent"]+'%;"></div>' +
+                return '<div class="progress">' + '<div class="' +
+                    ((!isNaN(data["Options"]["@attributes"]["threshold"]) && (this["Percent"]>=data["Options"]["@attributes"]["threshold"]))?'progress-bar progress-bar-danger':'progress-bar')+
+                    '" style="width: '+this["Percent"]+'% ;"></div>' +
                     '</div>' + '<div class="percent">' + this["Percent"]+'% '+(!isNaN(this["Inodes"])?'<sub>('+this["Inodes"]+'%)</sub>':'')+'</div>';
             }
         }
