@@ -97,7 +97,8 @@ function renderFilesystem(data) {
             html: function() {
                 return '<div class="progress">' +
                     '<div class="progress-bar" style="width: '+this["Percent"]+'%;"></div>' +
-                    '</div>' + '<div class="percent">' + this["Percent"]+'% <sub>('+this["Inodes"]+'%)</sub></div>';
+                    '</div>' + '<div class="percent">' + this["Percent"]+'% '+(!isNaN(this["Inodes"])?'<sub>('+this["Inodes"]+'%)</sub>':'')+'</div>';
+
             }
         }
     };
