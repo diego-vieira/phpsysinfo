@@ -1,5 +1,3 @@
-var json_data = {};
-
 $(document).ready(function () {
 
     $(document).ajaxStart(function(){
@@ -15,17 +13,17 @@ $(document).ready(function () {
         success: function (data) {
             json_data = data;
             console.log(data);
-            renderVitals();
-            renderHardware();
-            renderMemory();
-            renderFilesystem();
-            renderNetwork();
+            renderVitals(data);
+            renderHardware(data);
+            renderMemory(data);
+            renderFilesystem(data);
+            renderNetwork(data);
         }
     });
 });
 
 
-function renderVitals() {
+function renderVitals(data) {
     var directives = {
         Uptime: {
             text: function() {
@@ -39,14 +37,14 @@ function renderVitals() {
         }
     };
 
-    $('#vitals').render(json_data["Vitals"]["@attributes"],directives);
+    $('#vitals').render(data["Vitals"]["@attributes"],directives);
 }
 
-function renderHardware() {
-    $('#hardware').render(json_data["Hardware"]["CPU"]["CpuCore"][0]["@attributes"]);
+function renderHardware(data) {
+    $('#hardware').render(data["Hardware"]["CPU"]["CpuCore"][0]["@attributes"]);
 }
 
-function renderMemory() {
+function renderMemory(data) {
     var directives = {
         Total: {
             text: function() {
@@ -75,10 +73,10 @@ function renderMemory() {
         }
     };
 
-    $('#memory').render(json_data["Memory"]["@attributes"], directives);
+    $('#memory').render(data["Memory"]["@attributes"], directives);
 }
 
-function renderFilesystem() {
+function renderFilesystem(data) {
     var directives = {
         Total: {
             text: function() {
@@ -99,20 +97,20 @@ function renderFilesystem() {
             html: function() {
                 return '<div class="progress">' +
                     '<div class="progress-bar" style="width: '+this["Percent"]+'%;"></div>' +
-                    '</div>' + '<div class="percent">' + this["Percent"]+'%</div>';
+                    '</div>' + '<div class="percent">' + this["Percent"]+'% <sub>('+this["Inodes"]+'%)</sub></div>';
             }
         }
     };
 
     var fs_data = [];
-    for(var i=0;i<json_data["FileSystem"]["Mount"].length;i++) {
-        fs_data.push(json_data["FileSystem"]["Mount"][i]["@attributes"]);
+    for(var i=0;i<data["FileSystem"]["Mount"].length;i++) {
+        fs_data.push(data["FileSystem"]["Mount"][i]["@attributes"]);
     }
     $('#filesystem-data').render(fs_data, directives);
 }
 
 
-function renderNetwork() {
+function renderNetwork(data) {
     var directives = {
         RxBytes: {
             text: function() {
@@ -132,8 +130,8 @@ function renderNetwork() {
     };
 
     var network_data = [];
-    for(var i=0;i<json_data["Network"]["NetDevice"].length;i++) {
-        network_data.push(json_data["Network"]["NetDevice"][i]["@attributes"]);
+    for(var i=0;i<data["Network"]["NetDevice"].length;i++) {
+        network_data.push(data["Network"]["NetDevice"][i]["@attributes"]);
     }
     $('#network-data').render(network_data, directives);
 }
