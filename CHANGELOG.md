@@ -3,6 +3,11 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 4.0.0
+----------------
+
+ - [NEW] Rewrite the frontend with Bootstrap3 and Transparency
+
 phpSysInfo 3.1.7
 ----------------
 
