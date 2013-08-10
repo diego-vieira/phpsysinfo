@@ -21,7 +21,6 @@ $(document).ready(function () {
     });
 });
 
-
 function renderVitals(data) {
     var directives = {
         Uptime: {
@@ -50,12 +49,12 @@ function renderHardware(data) {
     var directives = {
         Model: {
             text: function () {
-                return this["CpuCore"].length + " x " +  this["CpuCore"][0]["@attributes"]["Model"];
+                return this["CpuCore"].length + " x " + this["CpuCore"][0]["@attributes"]["Model"];
             }
         }
     }
 
-    $('#hardware').render(data["Hardware"]["CPU"],directives);
+    $('#hardware').render(data["Hardware"]["CPU"], directives);
 }
 
 function renderMemory(data) {
@@ -81,9 +80,7 @@ function renderMemory(data) {
                 if (this["Details"] == undefined) {
                     return '<div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width: ' + this["@attributes"]["Percent"] + '%;"></div>' +
-                        '</div>' +
-                        '<div class="percent">' + this["@attributes"]["Percent"] + '% - ' +
-                        '</div>';
+                        '</div><div class="percent">' + this["@attributes"]["Percent"] + '%</div>';
                 }
                 else {
                     return '<div class="progress">' +
@@ -102,18 +99,54 @@ function renderMemory(data) {
         },
         Type: {
             text: function () {
-                return "Physical Memory"
+                return "Physical Memory";
             }
         }
     };
 
-
-    var data_memory = {};
-    for(var i=0;i<data["Memory"]["Swap"].length;i++) {
-        data_memory.push(data["Memory"]["Swap"][i]["@attributes"]);
+    var directive_swap = {
+        Total: {
+            text: function () {
+                return bytesToSize(this["Total"]);
+            }
+        },
+        Free: {
+            text: function () {
+                return bytesToSize(this["Free"]);
+            }
+        },
+        Used: {
+            text: function () {
+                return bytesToSize(this["Used"]);
+            }
+        },
+        Usage: {
+            html: function () {
+                return '<div class="progress">' +
+                    '<div class="progress-bar progress-bar-info" style="width: ' + this["Percent"] + '%;"></div>' +
+                    '</div><div class="percent">' + this["Percent"] + '%</div>';
+            }
+        },
+        Name: {
+            html: function () {
+                return this['Name'] + '<br/>' + this['MountPoint'];
+            }
+        }
     }
 
-   $('#memory').render(data["Memory"], directives);
+    var data_memory = [];
+
+    if (data["Memory"]["Swap"]["Mount"].length == undefined) {
+        data_memory.push(data["Memory"]["Swap"]["Mount"]["@attributes"]);
+    }
+    else {
+        for (var i = 0; i < data["Memory"]["Swap"]["Mount"].length; i++) {
+            data_memory.push(data["Memory"]["Swap"]["Mount"][i]["@attributes"]);
+        }
+    }
+
+    $('#memory-data').render(data["Memory"], directives);
+    $('#swap-data').render(data_memory, directive_swap);
 }
 
 function renderFilesystem(data) {
@@ -136,9 +169,9 @@ function renderFilesystem(data) {
         Percent: {
             html: function () {
                 return '<div class="progress">' + '<div class="' +
-                    ((!isNaN(data["Options"]["@attributes"]["threshold"]) && (this["Percent"]>=data["Options"]["@attributes"]["threshold"]))?'progress-bar progress-bar-danger':'progress-bar')+
-                    '" style="width: '+this["Percent"]+'% ;"></div>' +
-                    '</div>' + '<div class="percent">' + this["Percent"]+'% '+(!isNaN(this["Inodes"])?'<sub>('+this["Inodes"]+'%)</sub>':'')+'</div>';
+                    ((!isNaN(data["Options"]["@attributes"]["threshold"]) && (this["Percent"] >= data["Options"]["@attributes"]["threshold"])) ? 'progress-bar progress-bar-danger' : 'progress-bar') +
+                    '" style="width: ' + this["Percent"] + '% ;"></div>' +
+                    '</div>' + '<div class="percent">' + this["Percent"] + '% ' + (!isNaN(this["Inodes"]) ? '<sub>(' + this["Inodes"] + '%)</sub>' : '') + '</div>';
             }
         }
     };
