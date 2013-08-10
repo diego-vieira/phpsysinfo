@@ -117,7 +117,7 @@
                     <th>Size</th>
                 </tr>
                 </thead>
-                <tbody id="filesystem-data" >
+                <tbody id="filesystem-data">
                 <tr>
                     <td><span data-bind="MountPoint"/></td>
                     <td><span data-bind="FSType"/></td>
@@ -136,10 +136,22 @@
         <div class="col-lg-6">
             <h4>Network Interface</h4>
             <table id="network" class="table table-bordered table-hover table-condensed table-striped">
+                <thead>
                 <tr>
-                    <td></td>
-                    <td><span data-bind=""/></td>
+                    <th>Device</th>
+                    <th>Receive</th>
+                    <th>Sent</th>
+                    <th>Err/Drop</th>
                 </tr>
+                </thead>
+                <tbody id="network-data">
+                <tr>
+                    <td><span data-bind="Name"/></td>
+                    <td><span data-bind="RxBytes"/></td>
+                    <td><span data-bind="TxBytes"/></td>
+                    <td><span data-bind="Drops"/></td>
+                </tr>
+                </tbody>
             </table>
         </div>
 

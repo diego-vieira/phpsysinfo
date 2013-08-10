@@ -18,12 +18,21 @@ $(document).ready(function () {
             renderVitals();
             renderHardware();
             renderFilesystem();
+            renderNetwork();
         }
     });
 });
 
 function renderVitals() {
-    $('#vitals').render(json_data["Vitals"]["@attributes"]);
+    var directives = {
+        Uptime: {
+            text: function() {
+                return secondsToString(this["Uptime"]);
+            }
+        }
+    };
+
+    $('#vitals').render(json_data["Vitals"]["@attributes"],directives);
 }
 
 function renderHardware() {
@@ -46,6 +55,11 @@ function renderFilesystem() {
             text: function() {
                 return bytesToSize(this["Used"]);
             }
+        },
+        Percent: {
+            text: function() {
+                return this["Percent"]+"%";
+            }
         }
     };
 
@@ -57,6 +71,32 @@ function renderFilesystem() {
 }
 
 
+function renderNetwork() {
+    var directives = {
+        RxBytes: {
+            text: function() {
+                return bytesToSize(this["RxBytes"]);
+            }
+        },
+        TxBytes: {
+            text: function() {
+                return bytesToSize(this["TxBytes"]);
+            }
+        },
+        Drops: {
+            text: function() {
+                return this["Drops"] + "/" + this["Err"];
+            }
+        }
+    };
+
+    var network_data = [];
+    for(var i=0;i<json_data["Network"]["NetDevice"].length;i++) {
+        network_data.push(json_data["Network"]["NetDevice"][i]["@attributes"]);
+    }
+    $('#network-data').render(network_data, directives);
+}
+
 // from http://scratch99.com/web-development/javascript/convert-bytes-to-mb-kb/
 function bytesToSize(bytes) {
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -66,3 +106,11 @@ function bytesToSize(bytes) {
     return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
 }
 
+function secondsToString(seconds) {
+    var numyears = Math.floor(seconds / 31536000);
+    var numdays = Math.floor((seconds % 31536000) / 86400);
+    var numhours = Math.floor(((seconds % 31536000) % 86400) / 3600);
+    var numminutes = Math.floor((((seconds % 31536000) % 86400) % 3600) / 60);
+    var numseconds = Math.floor((((seconds % 31536000) % 86400) % 3600) % 60);
+    return numyears + " years " +  numdays + " days " + numhours + " hours " + numminutes + " minutes " + numseconds + " seconds";
+}
