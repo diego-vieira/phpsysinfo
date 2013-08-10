@@ -36,6 +36,12 @@ function renderVitals(data) {
         }
     };
 
+    if (data["Vitals"]["@attributes"]["SysLang"] === undefined) {
+        $("#tr_SysLang").hide();
+    }
+    if (data["Vitals"]["@attributes"]["CodePage"] === undefined) {
+        $("#tr_CodePage").hide();
+    }
     $('#vitals').render(data["Vitals"]["@attributes"], directives);
 }
 
