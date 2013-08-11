@@ -69,26 +69,6 @@ LOAD_BAR=false
 USE_VHOST=false
 
 
-; Controls the units & format for network, memory and filesystem
-; - 1 KiB = 2^10 bytes = 1,024 bytes
-; - 1 KB = 10^3 bytes = 1,000 bytes
-; - "B"    everything is in Byte
-; - "PiB"    everything is in PeBiByte
-; - "TiB"    everything is in TeBiByte
-; - "GiB"    everything is in GiBiByte
-; - "MiB"    everything is in MeBiByte
-; - "KiB"    everything is in KiBiByte
-; - "auto_binary" everything is automatic done if value is to big for, e.g MiB then it will be in GiB
-; - "PB"    everything is in PetaByte
-; - "TB"    everything is in TeraByte
-; - "GB"    everything is in GigaByte
-; - "MB"    everything is in MegaByte
-; - "KB"    everything is in KiloByte
-; - "auto_decimal" everything is automatic done if value is to big for, e.g MB then it will be in GB
-;
-BYTE_FORMAT="auto_binary"
-
-
 ; Format in which temperature is displayed
 ; - "c"    shown in celsius
 ; - "f"    shown in fahrenheit

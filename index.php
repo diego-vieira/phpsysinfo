@@ -34,7 +34,7 @@ if (version_compare("5.2", PHP_VERSION, ">")) {
 require_once APP_ROOT . '/includes/autoloader.inc.php';
 
 // Load configuration
-require_once APP_ROOT . '/config.php';
+require_once APP_ROOT . '/read_config.php';
 
 /*if (!defined('PSI_CONFIG_FILE') || !defined('PSI_DEBUG')) {
     $tpl = new Template("/templates/html/error_config.html");

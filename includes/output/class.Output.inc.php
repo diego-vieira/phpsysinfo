@@ -51,10 +51,10 @@ abstract class Output
      */
     private function _checkConfig()
     {
-        if (!is_readable(APP_ROOT.'/config.php')) {
-            $this->error->addError('file_exists(config.php)', 'config.php does not exist or is not readable by the webserver in the phpsysinfo directory.');
+        if (!is_readable(APP_ROOT.'/read_config.php')) {
+            $this->error->addError('file_exists(read_config.php)', 'read_config.php does not exist or is not readable by the webserver in the phpsysinfo directory.');
         } else {
-            include_once APP_ROOT.'/config.php';
+            include_once APP_ROOT.'/read_config.php';
         }
         if ($this->error->errorsExist()) {
             $this->error->errorsAsXML();
