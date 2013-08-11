@@ -194,6 +194,7 @@ function renderFilesystem(data) {
         fs_data.push(data["FileSystem"]["Mount"][i]["@attributes"]);
     }
     $('#filesystem-data').render(fs_data, directives);
+    sorttable.innerSortFunction.apply(document.getElementById('MountPoint'), []);
 }
 
 
