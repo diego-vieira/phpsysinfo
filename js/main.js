@@ -76,7 +76,7 @@ function renderMemory(data) {
         },
         Usage: {
             html: function () {
-                if (this["Details"] == undefined) {
+                if (this["Details"] == undefined  || this["Details"]["@attributes"] == undefined) {
                     return '<div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width: ' + this["@attributes"]["Percent"] + '%;"></div>' +
                         '</div><div class="percent">' + this["@attributes"]["Percent"] + '%</div>';
@@ -179,7 +179,8 @@ function renderFilesystem(data) {
         Percent: {
             html: function () {
                 return '<div class="progress">' + '<div class="' +
-                    ((!isNaN(data["Options"]["@attributes"]["threshold"]) && (this["Percent"] >= data["Options"]["@attributes"]["threshold"])) ? 'progress-bar progress-bar-danger' : 'progress-bar') +
+                    ((!isNaN(data["Options"]["@attributes"]["threshold"]) &&
+                        (this["Percent"] >= data["Options"]["@attributes"]["threshold"])) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info') +
                     '" style="width: ' + this["Percent"] + '% ;"></div>' +
                     '</div>' + '<div class="percent">' + this["Percent"] + '% ' + (!isNaN(this["Inodes"]) ? '<i>(' + this["Inodes"] + '%)</i>' : '') + '</div>';
             }
