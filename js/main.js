@@ -230,8 +230,10 @@ function renderTemperature(data) {
             temperature_data.push(data["MBInfo"]["Temperature"]["Item"][i]["@attributes"]);
         }
         $('#temperature-data').render(temperature_data);
+        $("#block_temperature").show();
     }
     catch (err) {
+        $("#block_temperature").hide();
     }
 }
 
