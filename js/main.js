@@ -12,11 +12,13 @@ $(document).ready(function () {
         url: "xml.php?plugin=complete&json",
         success: function (data) {
             console.log(data);
+
             renderVitals(data);
             renderHardware(data);
             renderMemory(data);
             renderFilesystem(data);
             renderNetwork(data);
+            renderTemperature(data);
         }
     });
 });
@@ -76,7 +78,7 @@ function renderMemory(data) {
         },
         Usage: {
             html: function () {
-                if (this["Details"] == undefined  || this["Details"]["@attributes"] == undefined) {
+                if (this["Details"] == undefined || this["Details"]["@attributes"] == undefined) {
                     return '<div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width: ' + this["@attributes"]["Percent"] + '%;"></div>' +
                         '</div><div class="percent">' + this["@attributes"]["Percent"] + '%</div>';
@@ -173,7 +175,7 @@ function renderFilesystem(data) {
         },
         Name: {
             html: function () {
-                return this["Name"]+((this["MountOptions"] !== undefined) ? '<br><i>(' + this["MountOptions"] + ')</i>' : '');
+                return this["Name"] + ((this["MountOptions"] !== undefined) ? '<br><i>(' + this["MountOptions"] + ')</i>' : '');
             }
         },
         Percent: {
@@ -219,6 +221,18 @@ function renderNetwork(data) {
         network_data.push(data["Network"]["NetDevice"][i]["@attributes"]);
     }
     $('#network-data').render(network_data, directives);
+}
+
+function renderTemperature(data) {
+    try {
+        var temperature_data = [];
+        for (var i = 0; i < data["MBInfo"]["Temperature"]["Item"].length; i++) {
+            temperature_data.push(data["MBInfo"]["Temperature"]["Item"][i]["@attributes"]);
+        }
+        $('#temperature-data').render(temperature_data);
+    }
+    catch (err) {
+    }
 }
 
 // from http://scratch99.com/web-development/javascript/convert-bytes-to-mb-kb/
