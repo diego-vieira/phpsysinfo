@@ -137,8 +137,12 @@ function renderMemory(data) {
     var data_memory = [];
 
     if (data["Memory"]["Swap"]["Mount"] !== undefined) {
-        for (var i = 0; i < data["Memory"]["Swap"]["Mount"].length; i++) {
-            data_memory.push(data["Memory"]["Swap"]["Mount"][i]["@attributes"]);
+        if (data["Memory"]["Swap"]["Mount"].length === undefined) {
+            data_memory.push(data["Memory"]["Swap"]["Mount"]["@attributes"]);
+        } else {
+            for (var i = 0; i < data["Memory"]["Swap"]["Mount"].length; i++) {
+                data_memory.push(data["Memory"]["Swap"]["Mount"][i]["@attributes"]);
+            }
         }
     }
 
