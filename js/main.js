@@ -76,7 +76,6 @@ function renderMemory(data) {
         },
         Usage: {
             html: function () {
-
                 if (this["Details"] == undefined) {
                     return '<div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width: ' + this["@attributes"]["Percent"] + '%;"></div>' +
@@ -167,12 +166,22 @@ function renderFilesystem(data) {
                 return bytesToSize(this["Used"]);
             }
         },
+        MountPoint: {
+            text: function () {
+                return ((this["MountPoint"] !== undefined) ? this["MountPoint"] : this["MountPointID"]);
+            }
+        },
+        Name: {
+            html: function () {
+                return this["Name"]+((this["MountOptions"] !== undefined) ? '<br><i>(' + this["MountOptions"] + ')</i>' : '');
+            }
+        },
         Percent: {
             html: function () {
                 return '<div class="progress">' + '<div class="' +
                     ((!isNaN(data["Options"]["@attributes"]["threshold"]) && (this["Percent"] >= data["Options"]["@attributes"]["threshold"])) ? 'progress-bar progress-bar-danger' : 'progress-bar') +
                     '" style="width: ' + this["Percent"] + '% ;"></div>' +
-                    '</div>' + '<div class="percent">' + this["Percent"] + '% ' + (!isNaN(this["Inodes"]) ? '<sub>(' + this["Inodes"] + '%)</sub>' : '') + '</div>';
+                    '</div>' + '<div class="percent">' + this["Percent"] + '% ' + (!isNaN(this["Inodes"]) ? '<i>(' + this["Inodes"] + '%)</i>' : '') + '</div>';
             }
         }
     };
