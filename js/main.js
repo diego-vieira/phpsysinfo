@@ -19,6 +19,7 @@ $(document).ready(function () {
             renderFilesystem(data);
             renderNetwork(data);
             renderTemperature(data);
+            renderPower(data);
         }
     });
 });
@@ -239,6 +240,20 @@ function renderTemperature(data) {
     }
     catch (err) {
         $("#block_temperature").hide();
+    }
+}
+
+function renderPower(data) {
+    try {
+        var power_data = [];
+        for (var i = 0; i < data["MBInfo"]["Power"]["Item"].length; i++) {
+            power_data.push(data["MBInfo"]["Power"]["Item"][i]["@attributes"]);
+        }
+        $('#power-data').render(power_data);
+        $("#block_power").show();
+    }
+    catch (err) {
+        $("#block_power").hide();
     }
 }
 
