@@ -404,6 +404,15 @@ class XML
                 $item->addAttribute('Max', $dev->getMax());
             }
         }
+        if (sizeof(unserialize(PSI_MBINFO))>0) {
+            $volt = $mbinfo->addChild('Power');
+            foreach ($mbinfo_detail->getMbPower() as $dev) {
+                $item = $volt->addChild('Item');
+                $item->addAttribute('Label', $dev->getName());
+                $item->addAttribute('Value', $dev->getValue());
+                $item->addAttribute('Max', $dev->getMax());
+            }
+        }
     }
 
     /**
@@ -560,6 +569,18 @@ class XML
         $generation->addAttribute('timestamp', time());
         $options = $this->_xml->addChild('Options');
         $options->addAttribute('tempFormat', defined('PSI_TEMP_FORMAT') ? strtolower(PSI_TEMP_FORMAT) : 'c');
+        $options->addAttribute('byteFormat', defined('PSI_BYTE_FORMAT') ? strtolower(PSI_BYTE_FORMAT) : 'auto_binary');
+        if ( defined('PSI_REFRESH') ) {
+            if (PSI_REFRESH === false) {
+                $options->addAttribute('refresh', 0);
+            } elseif (PSI_REFRESH === true) {
+                $options->addAttribute('refresh', 1);
+            } else {
+                $options->addAttribute('refresh', PSI_REFRESH);
+            }
+        } else {
+            $options->addAttribute('refresh', 60000);
+        }
         if ( defined('PSI_FS_USAGE_THRESHOLD') ) {
             if (PSI_FS_USAGE_THRESHOLD === true) {
                 $options->addAttribute('threshold', 1);
@@ -569,6 +590,8 @@ class XML
         } else {
             $options->addAttribute('threshold', 90);
         }
+        $options->addAttribute('showPickListTemplate', defined('PSI_SHOW_PICKLIST_TEMPLATE') ? (PSI_SHOW_PICKLIST_TEMPLATE ? 'true' : 'false') : 'false');
+        $options->addAttribute('showPickListLang', defined('PSI_SHOW_PICKLIST_LANG') ? (PSI_SHOW_PICKLIST_LANG ? 'true' : 'false') : 'false');
         $plug = $this->_xml->addChild('UsedPlugins');
         if ($this->_complete_request && count($this->_plugins) > 0) {
             foreach ($this->_plugins as $plugin) {
