@@ -51,8 +51,12 @@ function renderHardware(data) {
     var directives = {
         Model: {
             text: function () {
-                return this["CpuCore"].length + " x " + this["CpuCore"][0]["@attributes"]["Model"];
+                if(this["CpuCore"].length>1)
+                        return this["CpuCore"].length + " x " + this["CpuCore"][0]["@attributes"]["Model"];
+                else
+                         return this["CpuCore"]["@attributes"]["Model"];
             }
+
         }
     }
 
