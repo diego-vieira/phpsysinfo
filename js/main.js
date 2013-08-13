@@ -18,7 +18,9 @@ $(document).ready(function () {
             renderMemory(data);
             renderFilesystem(data);
             renderNetwork(data);
+            renderVoltage(data);
             renderTemperature(data);
+            renderFans(data);
             renderPower(data);
         }
     });
@@ -229,6 +231,20 @@ function renderNetwork(data) {
     $('#network-data').render(network_data, directives);
 }
 
+function renderVoltage(data) {
+    try {
+        var voltage_data = [];
+        for (var i = 0; i < data["MBInfo"]["Voltage"]["Item"].length; i++) {
+            voltage_data.push(data["MBInfo"]["Voltage"]["Item"][i]["@attributes"]);
+        }
+        $('#voltage-data').render(voltage_data);
+        $("#block_voltage").show();
+    }
+    catch (err) {
+        $("#block_voltage").hide();
+    }
+}
+
 function renderTemperature(data) {
     try {
         var temperature_data = [];
@@ -240,6 +256,19 @@ function renderTemperature(data) {
     }
     catch (err) {
         $("#block_temperature").hide();
+    }
+}
+function renderFans(data) {
+    try {
+        var fans_data = [];
+        for (var i = 0; i < data["MBInfo"]["Fans"]["Item"].length; i++) {
+            fans_data.push(data["MBInfo"]["Fans"]["Item"][i]["@attributes"]);
+        }
+        $('#fans-data').render(fans_data);
+        $("#block_fans").show();
+    }
+    catch (err) {
+        $("#block_fans").hide();
     }
 }
 
