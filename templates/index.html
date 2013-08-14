@@ -17,7 +17,7 @@
 <div class="navbar navbar-fixed-top">
     <div class="container">
 
-        <a class="navbar-brand" href="#"> phpSysInfo <sup>4.0</sup> <img id="loader" style="display:none" src="gfx/ajax-loader.gif"></a>
+        <a class="navbar-brand" href="#"> phpSysInfo <sup><?php echo PSI_VERSION; ?></sup> <img id="loader" style="display:none" src="gfx/ajax-loader.gif"></a>
 
     </div>
 </div>
@@ -74,9 +74,17 @@
             <h4>Hardware Information</h4>
             <table id="hardware" class="table table-hover table-condensed">
                 <tr>
-                    <td>CPU Model</td>
+                    <th>CPU Model</th>
                     <td><span data-bind="Model"/></td>
+                    <td>&nbsp;</td>
                 </tr>
+                <?php foreach (array("USB", "PCI", "IDE", "SCSI") as $type): ?>
+                <tr id="hardware-<?php echo $type; ?>">
+                    <th><?php echo $type; ?></th>
+                    <td>Number of devices: <span data-bind="<?php echo $type; ?>"></span></td>
+                    <td><button type="button" data-toggle="modal" data-target="#hw-dialog-<?php echo $type; ?>" class="btn btn-default btn-xs">Show details</button></td>
+                </tr>
+                <?php endforeach; ?>
             </table>
         </div>
     </div>
@@ -251,6 +259,27 @@
 
     </div>
 
+    
+    <!-- Hardware details modal dialogs -->
+<?php foreach (array("USB", "PCI", "IDE", "SCSI") as $type): ?>
+    <div class="modal fade" id="hw-dialog-<?php echo $type; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><?php echo $type; ?> devices</h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                        <span class="badge" data-bind="hwCount"></span><span data-bind="hwName"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+<?php endforeach; ?>
 
     <script src="js/vendor/jquery.min.js"></script>
     <script src="js/vendor/bootstrap.min.js"></script>

@@ -54,16 +54,101 @@ function renderHardware(data) {
     var directives = {
         Model: {
             text: function () {
-                if(this["CpuCore"].length>1)
-                        return this["CpuCore"].length + " x " + this["CpuCore"][0]["@attributes"]["Model"];
+                if(this["CPU"]["CpuCore"].length > 1)
+                    return this["CPU"]["CpuCore"].length + " x " + this["CPU"]["CpuCore"][0]["@attributes"]["Model"];
                 else
-                         return this["CpuCore"]["@attributes"]["Model"];
+                    return this["CPU"]["CpuCore"]["@attributes"]["Model"];
+            }
+        },
+        USB: {
+            text: function() {
+                if (this["USB"]["Device"] != undefined && this["USB"]["Device"].length > 0) {
+                    return this["USB"]["Device"].length;
+                }
+                else if (this["USB"]["0"] != undefined) {
+                    return "1";
+                }
+            }
+        },
+        PCI: {
+            text: function() {
+                if (this["PCI"]["Device"] != undefined && this["PCI"]["Device"].length > 0) {
+                    return this["PCI"]["Device"].length;
+                }
+                else if (this["PCI"]["0"] != undefined) {
+                    return "1";
+                }
+            }
+        },
+        IDE: {
+            text: function() {
+                if (this["IDE"]["Device"] != undefined && this["IDE"]["Device"].length > 0) {
+                    return this["IDE"]["Device"].length;
+                }
+                else if (this["IDE"]["0"] != undefined) {
+                    return "1";
+                }
+            }
+        },
+        SCSI: {
+            text: function() {
+                if (this["SCSI"]["Device"] != undefined && this["SCSI"]["Device"].length > 0) {
+                    return this["SCSI"]["Device"].length;
+                }
+                else if (this["SCSI"]["0"] != undefined) {
+                    return "1";
+                }
+            }
+        }
+    };
+    $('#hardware').render(data["Hardware"], directives);
+
+    var hw_directives = {
+        hwName: {
+            text: function() {
+                return this["@attributes"]["Name"];
+            }
+        },
+        hwCount: {
+            text: function() {
+                if (this["@attributes"]["Count"] == "1") {
+                    return "";
+                }
+                return this["@attributes"]["Count"];
+            }
+        }
+    };
+
+
+    for (hw_type in data["Hardware"]) {
+        if (hw_type != "CPU") {
+            hw_data = [];
+
+            if (data["Hardware"][hw_type]["Device"] == undefined && data["Hardware"][hw_type]["0"] != undefined) {
+                hw_data.push(data["Hardware"][hw_type]["0"]);
+            }
+            else if (data["Hardware"][hw_type]["Device"].length != undefined) {
+                for (index in data["Hardware"][hw_type]["Device"]) {
+                    hw_data.push(data["Hardware"][hw_type]["Device"][index]);
+                }
             }
 
+            if (hw_data.length > 0) {
+                $("#hw-dialog-"+hw_type+" ul").render(hw_data, hw_directives);
+            }
+            else {
+                $("#hardware-"+hw_type).hide();
+            }
         }
     }
-
-    $('#hardware').render(data["Hardware"]["CPU"], directives);
+    /*
+    if (data["Hardware"]["USB"]["Device"].length > 0) {
+        $("#hw-dialog-USB ul").render(data["Hardware"]["USB"]["Device"], hw_directives);
+    }
+    else {
+        $("hardware-USB").hide();
+    }
+    */
 }
 
 function renderMemory(data) {
