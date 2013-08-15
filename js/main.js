@@ -1,3 +1,4 @@
+var data_dbg;
 $(document).ready(function () {
 
     $(document).ajaxStart(function () {
@@ -12,7 +13,7 @@ $(document).ready(function () {
         url: "xml.php?plugin=complete&json",
         success: function (data) {
             console.log(data);
-
+            data_dbg = data;
             renderVitals(data);
             renderHardware(data);
             renderMemory(data);
@@ -124,20 +125,25 @@ function renderHardware(data) {
         if (hw_type != "CPU") {
             hw_data = [];
 
-            if (data["Hardware"][hw_type]["Device"] == undefined && data["Hardware"][hw_type]["0"] != undefined) {
-                hw_data.push(data["Hardware"][hw_type]["0"]);
-            }
-            else if (data["Hardware"][hw_type]["Device"].length != undefined) {
-                for (index in data["Hardware"][hw_type]["Device"]) {
-                    hw_data.push(data["Hardware"][hw_type]["Device"][index]);
-                }
-            }
-
-            if (hw_data.length > 0) {
-                $("#hw-dialog-"+hw_type+" ul").render(hw_data, hw_directives);
+            if(jQuery.isEmptyObject(data["Hardware"][hw_type])) {
+                $("#hardware-"+hw_type).hide();
             }
             else {
-                $("#hardware-"+hw_type).hide();
+                if (data["Hardware"][hw_type]["Device"] == undefined && data["Hardware"][hw_type]["0"] != undefined) {
+                    hw_data.push(data["Hardware"][hw_type]["0"]);
+                }
+                else if (data["Hardware"][hw_type]["Device"].length != undefined) {
+                    for (index in data["Hardware"][hw_type]["Device"]) {
+                        hw_data.push(data["Hardware"][hw_type]["Device"][index]);
+                    }
+                }
+
+                if (hw_data.length > 0) {
+                    $("#hw-dialog-"+hw_type+" ul").render(hw_data, hw_directives);
+                }
+                else {
+                    $("#hardware-"+hw_type).hide();
+                }
             }
         }
     }
