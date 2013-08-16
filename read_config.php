@@ -12,9 +12,8 @@ if (!defined('PSI_CONFIG_FILE')) {
     define('ARRAY_EXP', '/^return array \([^;]*\);$/'); //array expression search
 
     if (!is_readable(PSI_CONFIG_FILE) || !($config = @parse_ini_file(PSI_CONFIG_FILE, true))) {
-        $tpl = new Template("/templates/html/error_config.html");
-        echo $tpl->fetch();
-        die();
+        Error::singleton()->addError('warn', "Configuration file '".PSI_CONFIG_FILE."' not readable");
+        throw new Exception('init: config file not readable');
     } else {
         foreach ($config as $name=>$group) {
             if (strtoupper($name)=="MAIN") {
@@ -57,15 +56,6 @@ if (!defined('PSI_CONFIG_FILE')) {
             } else {
                 define('PSI_VERSION_STRING', PSI_VERSION ."-".$matches[2]);
             }
-        }
-    }
-    /* get svn revision */
-    if (!defined('PSI_VERSION_STRING') && file_exists(APP_ROOT.'/.svn/entries')) {
-        $contents = @file_get_contents(APP_ROOT.'/.svn/entries');
-        if ($contents && preg_match("/dir\n(.+)/", $contents, $matches)) {
-            define('PSI_VERSION_STRING', PSI_VERSION."-r".$matches[1]);
-        } else {
-            define('PSI_VERSION_STRING', PSI_VERSION);
         }
     }
     if (!defined('PSI_VERSION_STRING')) {

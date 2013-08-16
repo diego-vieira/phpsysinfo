@@ -33,14 +33,19 @@ if (version_compare("5.2", PHP_VERSION, ">")) {
 
 require_once APP_ROOT . '/includes/autoloader.inc.php';
 
-// Load configuration
-require_once APP_ROOT . '/read_config.php';
+// Load configuration and perform system check
+try {
+    require_once APP_ROOT . '/read_config.php';
+}
+catch (Exception $e) {;}
+require_once APP_ROOT . '/systemcheck.php';
 
-/*if (!defined('PSI_CONFIG_FILE') || !defined('PSI_DEBUG')) {
-    $tpl = new Template("/templates/html/error_config.html");
+if (Error::singleton()->errorsExist()) {
+    $tpl = new Template("/templates/errors.html");
+    $tpl->set('errors', Error::singleton()->getErrors());
     echo $tpl->fetch();
-    die();
-}*/
+    exit(-1);
+}
 
 $tpl = new Template("/templates/index.html");
 echo $tpl->fetch();
