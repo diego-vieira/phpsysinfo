@@ -10,7 +10,7 @@ $(document).ready(function () {
 
     $.ajax({
         dataType: "json",
-        url: "xml.php?plugin=complete&json",
+        url: "json.php?plugin=complete",
         success: function (data) {
             console.log(data);
             data_dbg = data;
@@ -41,13 +41,13 @@ function renderVitals(data) {
         }
     };
 
-    if (data["Vitals"]["@attributes"]["SysLang"] === undefined) {
+    if (data["Vitals"]["SysLang"] === undefined) {
         $("#tr_SysLang").hide();
     }
-    if (data["Vitals"]["@attributes"]["CodePage"] === undefined) {
+    if (data["Vitals"]["CodePage"] === undefined) {
         $("#tr_CodePage").hide();
     }
-    $('#vitals').render(data["Vitals"]["@attributes"], directives);
+    $('#vitals').render(data["Vitals"], directives);
 }
 
 function renderHardware(data) {
@@ -55,143 +55,87 @@ function renderHardware(data) {
     var directives = {
         Model: {
             text: function () {
-                if(this["CPU"]["CpuCore"].length > 1)
-                    return this["CPU"]["CpuCore"].length + " x " + this["CPU"]["CpuCore"][0]["@attributes"]["Model"];
+                if(this["CPU"].length > 1)
+                    return this["CPU"].length + " x " + this["CPU"][0]["CpuCore"]["Model"];
                 else
-                    return this["CPU"]["CpuCore"]["@attributes"]["Model"];
+                    return this["CPU"][0]["CpuCore"]["Model"];
             }
         },
-        USB: {
-            text: function() {
-                if (this["USB"]["Device"] != undefined && this["USB"]["Device"].length > 0) {
-                    return this["USB"]["Device"].length;
-                }
-                else if (this["USB"]["0"] != undefined) {
-                    return "1";
-                }
-            }
-        },
-        PCI: {
-            text: function() {
-                if (this["PCI"]["Device"] != undefined && this["PCI"]["Device"].length > 0) {
-                    return this["PCI"]["Device"].length;
-                }
-                else if (this["PCI"]["0"] != undefined) {
-                    return "1";
-                }
-            }
-        },
-        IDE: {
-            text: function() {
-                if (this["IDE"]["Device"] != undefined && this["IDE"]["Device"].length > 0) {
-                    return this["IDE"]["Device"].length;
-                }
-                else if (this["IDE"]["0"] != undefined) {
-                    return "1";
-                }
-            }
-        },
-        SCSI: {
-            text: function() {
-                if (this["SCSI"]["Device"] != undefined && this["SCSI"]["Device"].length > 0) {
-                    return this["SCSI"]["Device"].length;
-                }
-                else if (this["SCSI"]["0"] != undefined) {
-                    return "1";
-                }
-            }
-        }
     };
     $('#hardware').render(data["Hardware"], directives);
 
     var hw_directives = {
         hwName: {
             text: function() {
-                return this["@attributes"]["Name"];
+                return this["Name"];
             }
         },
         hwCount: {
             text: function() {
-                if (this["@attributes"]["Count"] == "1") {
+                if (this["Count"] == "1") {
                     return "";
                 }
-                return this["@attributes"]["Count"];
+                return this["Count"];
             }
         }
     };
-
 
     for (hw_type in data["Hardware"]) {
         if (hw_type != "CPU") {
             hw_data = [];
 
-            if(jQuery.isEmptyObject(data["Hardware"][hw_type])) {
-                $("#hardware-"+hw_type).hide();
+            if (data["Hardware"][hw_type].length > 0) {
+                for (i=0; i < data["Hardware"][hw_type].length; i++) {
+                    hw_data.push(data["Hardware"][hw_type][i]["Device"]);
+                }
+            }
+
+            if (hw_data.length > 0) {
+                $("#hardware-" + hw_type + " span").html(hw_data.length);
+                $("#hw-dialog-"+hw_type+" ul").render(hw_data, hw_directives);
             }
             else {
-                if (data["Hardware"][hw_type]["Device"] == undefined && data["Hardware"][hw_type]["0"] != undefined) {
-                    hw_data.push(data["Hardware"][hw_type]["0"]);
-                }
-                else if (data["Hardware"][hw_type]["Device"].length != undefined) {
-                    for (index in data["Hardware"][hw_type]["Device"]) {
-                        hw_data.push(data["Hardware"][hw_type]["Device"][index]);
-                    }
-                }
-
-                if (hw_data.length > 0) {
-                    $("#hw-dialog-"+hw_type+" ul").render(hw_data, hw_directives);
-                }
-                else {
-                    $("#hardware-"+hw_type).hide();
-                }
+                $("#hardware-"+hw_type).hide();
             }
         }
     }
-    /*
-    if (data["Hardware"]["USB"]["Device"].length > 0) {
-        $("#hw-dialog-USB ul").render(data["Hardware"]["USB"]["Device"], hw_directives);
-    }
-    else {
-        $("hardware-USB").hide();
-    }
-    */
 }
 
 function renderMemory(data) {
     var directives = {
         Total: {
             text: function () {
-                return bytesToSize(this["@attributes"]["Total"]);
+                return bytesToSize(this["Total"]);
             }
         },
         Free: {
             text: function () {
-                return bytesToSize(this["@attributes"]["Free"]);
+                return bytesToSize(this["Free"]);
             }
         },
         Used: {
             text: function () {
-                return bytesToSize(this["@attributes"]["Used"]);
+                return bytesToSize(this["Used"]);
             }
         },
         Usage: {
             html: function () {
-                if (this["Details"] == undefined || this["Details"]["@attributes"] == undefined) {
+                if (this["Details"] == undefined) {
                     return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width: ' + this["@attributes"]["Percent"] + '%;"></div>' +
-                        '</div><div class="percent">' + this["@attributes"]["Percent"] + '%</div>';
+                        '<div class="progress-bar progress-bar-info" style="width: ' + this["Percent"] + '%;"></div>' +
+                        '</div><div class="percent">' + this["Percent"] + '%</div>';
                 }
                 else {
                     return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width: ' + this["Details"]["@attributes"]["AppPercent"] + '%;"></div>' +
-                        '<div class="progress-bar progress-bar-warning" style="width: ' + this["Details"]["@attributes"]["CachedPercent"] + '%;"></div>' +
-                        '<div class="progress-bar progress-bar-danger" style="width: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%;"></div>' +
+                        '<div class="progress-bar progress-bar-info" style="width: ' + this["Details"]["AppPercent"] + '%;"></div>' +
+                        '<div class="progress-bar progress-bar-warning" style="width: ' + this["Details"]["CachedPercent"] + '%;"></div>' +
+                        '<div class="progress-bar progress-bar-danger" style="width: ' + this["Details"]["BuffersPercent"] + '%;"></div>' +
                         '</div>' +
                         '<div class="percent">' +
-                        'Total: ' + this["@attributes"]["Percent"] + '% ' +
-                        '<i>(App: ' + this["Details"]["@attributes"]["AppPercent"] + '% - ' +
-                        'Cache: ' + this["Details"]["@attributes"]["CachedPercent"] + '% - ' +
-                        'Buffers: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%' +
+                        'Total: ' + this["Percent"] + '% ' +
+                        '<i>(App: ' + this["Details"]["AppPercent"] + '% - ' +
+                        'Cache: ' + this["Details"]["CachedPercent"] + '% - ' +
+                        'Buffers: ' + this["Details"]["BuffersPercent"] + '%' +
                         ')</i></div>';
                 }
             }
@@ -235,13 +179,9 @@ function renderMemory(data) {
 
     var data_memory = [];
 
-    if (data["Memory"]["Swap"]["Mount"] !== undefined) {
-        if (data["Memory"]["Swap"]["Mount"].length === undefined) {
-            data_memory.push(data["Memory"]["Swap"]["Mount"]["@attributes"]);
-        } else {
-            for (var i = 0; i < data["Memory"]["Swap"]["Mount"].length; i++) {
-                data_memory.push(data["Memory"]["Swap"]["Mount"][i]["@attributes"]);
-            }
+    if (data["Memory"]["Swap"] !== undefined) {
+        for (var i = 0; i < data["Memory"]["Swap"]["Devices"].length; i++) {
+            data_memory.push(data["Memory"]["Swap"]["Devices"][i]["Mount"]);
         }
     }
 
@@ -279,8 +219,8 @@ function renderFilesystem(data) {
         Percent: {
             html: function () {
                 return '<div class="progress">' + '<div class="' +
-                    ((!isNaN(data["Options"]["@attributes"]["threshold"]) &&
-                        (this["Percent"] >= data["Options"]["@attributes"]["threshold"])) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info') +
+                    ((!isNaN(data["Options"]["threshold"]) &&
+                        (this["Percent"] >= data["Options"]["threshold"])) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info') +
                     '" style="width: ' + this["Percent"] + '% ;"></div>' +
                     '</div>' + '<div class="percent">' + this["Percent"] + '% ' + (!isNaN(this["Inodes"]) ? '<i>(' + this["Inodes"] + '%)</i>' : '') + '</div>';
             }
@@ -288,8 +228,8 @@ function renderFilesystem(data) {
     };
 
     var fs_data = [];
-    for (var i = 0; i < data["FileSystem"]["Mount"].length; i++) {
-        fs_data.push(data["FileSystem"]["Mount"][i]["@attributes"]);
+    for (var i = 0; i < data["FileSystem"].length; i++) {
+        fs_data.push(data["FileSystem"][i]["Mount"]);
     }
     $('#filesystem-data').render(fs_data, directives);
     sorttable.innerSortFunction.apply(document.getElementById('MountPoint'), []);
@@ -316,8 +256,8 @@ function renderNetwork(data) {
     };
 
     var network_data = [];
-    for (var i = 0; i < data["Network"]["NetDevice"].length; i++) {
-        network_data.push(data["Network"]["NetDevice"][i]["@attributes"]);
+    for (var i = 0; i < data["Network"].length; i++) {
+        network_data.push(data["Network"][i]["NetDevice"]);
     }
     $('#network-data').render(network_data, directives);
 }
@@ -325,8 +265,8 @@ function renderNetwork(data) {
 function renderVoltage(data) {
     try {
         var voltage_data = [];
-        for (var i = 0; i < data["MBInfo"]["Voltage"]["Item"].length; i++) {
-            voltage_data.push(data["MBInfo"]["Voltage"]["Item"][i]["@attributes"]);
+        for (var i = 0; i < data["MBInfo"]["Voltage"].length; i++) {
+            voltage_data.push(data["MBInfo"]["Voltage"][i]["Item"]);
         }
         $('#voltage-data').render(voltage_data);
         $("#block_voltage").show();
@@ -339,8 +279,8 @@ function renderVoltage(data) {
 function renderTemperature(data) {
     try {
         var temperature_data = [];
-        for (var i = 0; i < data["MBInfo"]["Temperature"]["Item"].length; i++) {
-            temperature_data.push(data["MBInfo"]["Temperature"]["Item"][i]["@attributes"]);
+        for (var i = 0; i < data["MBInfo"]["Temperature"].length; i++) {
+            temperature_data.push(data["MBInfo"]["Temperature"][i]["Item"]);
         }
         $('#temperature-data').render(temperature_data);
         $("#block_temperature").show();
@@ -352,8 +292,8 @@ function renderTemperature(data) {
 function renderFans(data) {
     try {
         var fans_data = [];
-        for (var i = 0; i < data["MBInfo"]["Fans"]["Item"].length; i++) {
-            fans_data.push(data["MBInfo"]["Fans"]["Item"][i]["@attributes"]);
+        for (var i = 0; i < data["MBInfo"]["Fans"].length; i++) {
+            fans_data.push(data["MBInfo"]["Fans"][i]["Item"]);
         }
         $('#fans-data').render(fans_data);
         $("#block_fans").show();
@@ -366,8 +306,8 @@ function renderFans(data) {
 function renderPower(data) {
     try {
         var power_data = [];
-        for (var i = 0; i < data["MBInfo"]["Power"]["Item"].length; i++) {
-            power_data.push(data["MBInfo"]["Power"]["Item"][i]["@attributes"]);
+        for (var i = 0; i < data["MBInfo"]["Power"].length; i++) {
+            power_data.push(data["MBInfo"]["Power"][i]["Item"]);
         }
         $('#power-data').render(power_data);
         $("#block_power").show();
