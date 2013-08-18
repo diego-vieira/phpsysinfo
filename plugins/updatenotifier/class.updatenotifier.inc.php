@@ -106,4 +106,17 @@ class UpdateNotifier extends PSI_Plugin
 
         return $this->xml->getSimpleXmlElement();
     }
+
+    public function getData() 
+    {
+        if (!empty($this->_result)) {
+            return array("UpdateNotifier" => array(
+                    "packages" => $this->_result[0],
+                    "security" => $this->_result[1]
+                )
+            );
+        }
+
+        return null;
+    }
 }
