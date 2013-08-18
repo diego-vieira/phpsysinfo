@@ -30,6 +30,8 @@ define('PSI_INTERNAL_XML', true);
 
 require_once APP_ROOT.'/includes/autoloader.inc.php';
 
+require_once APP_ROOT.'/read_config.php';
+
 // check what xml part should be generated
 /*
 if (isset($_GET['plugin'])) {
@@ -45,7 +47,7 @@ if (isset($_GET['plugin'])) {
     $output = new WebpageXML(false, null);
 }
  */
-$output = new JSONOutput(false, null);
+$output = new JSONOutput(true, null);
 
 // if $output is correct generate output in proper type
 if (isset($output) && is_object($output)) {

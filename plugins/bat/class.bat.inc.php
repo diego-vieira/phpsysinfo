@@ -267,4 +267,42 @@ class BAT extends PSI_Plugin
 
         return $this->xml->getSimpleXmlElement();
     }
+
+    public function getData()
+    {
+        foreach ($this->_result as $bat_item) {
+            $bat = array();
+
+            if (isset($bat_item['design_capacity'])) {
+                $bat["DesignCapacity"] = $bat_item['design_capacity'];
+            }
+            if (isset($bat_item['design_voltage'])) {
+                $bat["DesignVoltage"] = $bat_item['design_voltage'];
+            }
+            if (isset($bat_item['remaining_capacity'])) {
+                $bat["RemainingCapacity"] = $bat_item['remaining_capacity'];
+            }
+            if (isset($bat_item['present_voltage'])) {
+                $bat["PresentVoltage"] = $bat_item['present_voltage'];
+            }
+            if (isset($bat_item['charging_state'])) {
+                $bat["ChargingState"] = $bat_item['charging_state'];
+            }
+            if (isset($bat_item['battery_type'])) {
+                $bat["BatteryType"] = $bat_item['battery_type'];
+            }
+            if (isset($bat_item['battery_temperature'])) {
+                $bat["BatteryTemperature"] = $bat_item['battery_temperature'];
+            }
+            if (isset($bat_item['battery_condition'])) {
+                $bat["BatteryCondition"] = $bat_item['battery_condition'];
+            }
+
+            if (count($bat) > 0) {
+                return array('Bat' => $bat);
+            }
+        }
+        
+        return null;
+    }
 }

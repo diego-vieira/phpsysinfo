@@ -198,4 +198,70 @@ class ipmiinfo extends PSI_Plugin
         return $this->xml->getSimpleXmlElement();
     }
 
+    public function getData()
+    {
+        if ( empty($this->_lines))
+            return null;
+
+        $res = array();
+
+        $arrBuff = $this->temperature();
+        if (sizeof($arrBuff) > 0) {
+            $data = array();
+            foreach ($arrBuff as $arrValue) {
+                $data[]['Item'] = array(
+                    'Label' => $arrValue['label'],
+                    'Value' => $arrValue['value'],
+                    'State' => $arrValue['state'],
+                    'Limit' => $arrValue['limit']
+                );
+            }
+            $res['Temperature'] = $data;
+        }
+
+        $arrBuff = $this->fans();
+        if (sizeof($arrBuff) > 0) {
+            $data = array();
+            foreach ($arrBuff as $arrValue) {
+                $data[]['Item'] = array(
+                    'Label' => $arrValue['label'],
+                    'Value' => $arrValue['value'],
+                    'State' => $arrValue['state'],
+                    'Min' => $arrValue['min']
+                );
+            }
+            $res['Fans'] = $data;
+        }
+
+        $arrBuff = $this->voltage();
+        if (sizeof($arrBuff) > 0) {
+            $data = array();
+            foreach ($arrBuff as $arrValue) {
+                $data[]['Item'] = array(
+                    'Label' => $arrValue['label'],
+                    'Value' => $arrValue['value'],
+                    'State' => $arrValue['state'],
+                    'Min' => $arrValue['min'],
+                    'Max' => $arrValue['max']
+                );
+            }
+            $res['Voltage'] = $data;
+        }
+
+        $arrBuff = $this->misc();
+        if (sizeof($arrBuff) > 0) {
+            $data = array();
+            foreach ($arrBuff as $arrValue) {
+                $data[]['Item'] = array(
+                    'Label' => $arrValue['label'],
+                    'Value' => $arrValue['value'],
+                    'State' => $arrValue['state']
+                );
+            }
+            $res['Misc'] = $data;
+        }
+
+        return $res;
+    }
+
 }

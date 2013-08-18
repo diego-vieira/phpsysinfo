@@ -156,13 +156,6 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 $this->error->errorsAsXML();
             }
         }
-
-        // Create the XML
-        if ($this->_pluginRequest) {
-            $this->_xml = new XML(false, $this->_pluginName);
-        } else {
-            $this->_xml = new XML($this->_completeXML);
-        }
     }
 
     /**
@@ -189,6 +182,15 @@ class JSONOutput extends Output implements PSI_Interface_Output
         $this->_buildPlugins();
 
         return json_encode($this->_json);
+    }
+
+    /**
+     * Returns the plugins 
+     *
+     * @return Array the loaded plugins
+     */
+    public function getPlugins() {
+        return $this->_plugins;
     }
 
     private function _buildPSIHeader() {
@@ -228,13 +230,11 @@ class JSONOutput extends Output implements PSI_Interface_Output
         $this->_json['Options']['showPickListTemplate'] = defined('PSI_SHOW_PICKLIST_TEMPLATE') ? (PSI_SHOW_PICKLIST_TEMPLATE ? 'true' : 'false') : 'false';
         
         $this->_json['UsedPlugins'] = array();
-        if ($this->_complete_request && count($this->_plugins) > 0) {
+        if (count($this->_plugins) > 0) {
             foreach ($this->_plugins as $plugin) {
                 $this->_json['UsedPlugins'][] = array('Plugin' => array('name' => $plugin));
             }
-        } elseif ($this->_plugin_request && count($this->_plugins) > 0) {
-            $this->_json['UsedPlugins'][] = array('Plugin' => array('name' => $this->_plugin));
-        }
+        } 
     }
 
     private function _buildVitals() {
@@ -617,8 +617,6 @@ class JSONOutput extends Output implements PSI_Interface_Output
             $upsinfo_detail = $upsinfo_data->getUPSInfo();
             foreach ($upsinfo_detail->getUpsDevices() as $ups) {
 
-//                $item = $upsinfo->addChild('UPS');
-
                 $item = array(
                     'Name' => $ups->getName(),
                     'Model' => $ups->getModel(),
@@ -666,78 +664,27 @@ class JSONOutput extends Output implements PSI_Interface_Output
     }
 
     /**
-     * include xml-trees of the plugins to the main xml
+     * Includes the plugins to the main data array
      *
      * @return void
      */
     private function _buildPlugins()
     {
-        /*
-        $pluginroot = $this->_xml->addChild("Plugins");
-        if (($this->_plugin_request || $this->_complete_request) && count($this->_plugins) > 0) {
+        if (count($this->_plugins) > 0) {
             $plugins = array();
-            if ($this->_complete_request) {
-                $plugins = $this->_plugins;
-            }
-            if ($this->_plugin_request) {
-                $plugins = array($this->_plugin);
-            }
-            foreach ($plugins as $plugin) {
+            foreach ($this->_plugins as $plugin) {
                 $object = new $plugin($this->_sysinfo->getEncoding());
                 $object->execute();
-                $pluginroot->combinexml($object->xml());
-            }
-        }
-         */
-    }
-        
+                $data = $object->getData();
 
-    /**
-     * generate the xml document
-     *
-     * @return void
-     */
-    /*
-    private function _buildXml()
-    {
-        if (!$this->_plugin_request || $this->_complete_request) {
-            if ($this->_sys === null) {
-                if (PSI_DEBUG === true) {
-                    // Safe mode check
-                    $safe_mode = @ini_get("safe_mode") ? TRUE : FALSE;
-                    if ($safe_mode) {
-                        $this->_errors->addError("WARN", "PhpSysInfo requires to set off 'safe_mode' in 'php.ini'");
-                    }
-                    // Include path check
-                    $include_path = @ini_get("include_path");
-                    if ($include_path && ($include_path!="")) {
-                        $include_path = preg_replace("/(:)|(;)/", "\n", $include_path);
-                        if (preg_match("/^\.$/m", $include_path)) {
-                            $include_path = ".";
-                        }
-                    }
-                    if ($include_path != ".") {
-                        $this->_errors->addError("WARN", "PhpSysInfo requires '.' inside the 'include_path' in php.ini");
-                    }
-                    // popen mode check
-                    if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
-                        $this->_errors->addError("WARN", "Installed version of PHP does not support proc_open() function, popen() is used");
-                    }
+                if ($data !== null) {
+                    $plugins[] = $data;
                 }
-                $this->_sys = $this->_sysinfo->getSys();
             }
-            $this->_buildVitals();
-            $this->_buildNetwork();
-            $this->_buildHardware();
 
-            $this->_buildMemory();
-            $this->_buildFilesystems();
-            $this->_buildMbinfo();
-            $this->_buildUpsinfo();
+            if (count($plugins) > 0) {
+                $this->_json['Plugins'] = $plugins;
+            }
         }
-        $this->_buildPlugins();
-        $this->_xml->combinexml($this->_errors->errorsAddToXML($this->_sysinfo->getEncoding()));
     }
-     */
-
 }
