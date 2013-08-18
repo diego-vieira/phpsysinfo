@@ -285,7 +285,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
         foreach ($this->_sys->getNetDevices() as $dev) {
             if (!in_array(trim($dev->getName()), $hideDevices)) {
 
-                $dev = array(
+                $netdev = array(
                     'Name' => $dev->getName(),
                     'RxBytes' => $dev->getRxBytes(),
                     'TxBytes' => $dev->getTxBytes(),
@@ -293,9 +293,9 @@ class JSONOutput extends Output implements PSI_Interface_Output
                     'Drops' => $dev->getDrops()
                 );
                 if ( defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && $dev->getInfo() )
-                    $dev['Info'] = $dev->getInfo();
+                    $netdev['Info'] = $dev->getInfo();
 
-                $this->_json['Network'][]['NetDevice'] = $dev;
+                $this->_json['Network'][]['NetDevice'] = $netdev;
             }
         }
     }
@@ -617,7 +617,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
             $upsinfo_detail = $upsinfo_data->getUPSInfo();
             foreach ($upsinfo_detail->getUpsDevices() as $ups) {
 
-                $item = $upsinfo->addChild('UPS');
+//                $item = $upsinfo->addChild('UPS');
 
                 $item = array(
                     'Name' => $ups->getName(),
