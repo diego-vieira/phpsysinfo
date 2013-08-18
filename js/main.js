@@ -277,12 +277,22 @@ function renderVoltage(data) {
 }
 
 function renderTemperature(data) {
+
+    var directives = {
+        Value: {
+            text: function () {
+                return this["Value"] + data["Options"]["tempFormat"];
+            }
+        }
+    };
+
+
     try {
         var temperature_data = [];
         for (var i = 0; i < data["MBInfo"]["Temperature"].length; i++) {
             temperature_data.push(data["MBInfo"]["Temperature"][i]["Item"]);
         }
-        $('#temperature-data').render(temperature_data);
+        $('#temperature-data').render(temperature_data,directives);
         $("#block_temperature").show();
     }
     catch (err) {
