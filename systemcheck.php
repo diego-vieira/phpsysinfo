@@ -1,7 +1,12 @@
 <?php
 
 // check extensions
-$required_extensions = array('pcre', 'mbstring', 'SimpleXML', 'xml');
+$required_extensions = array('pcre', 'SimpleXML', 'xml');
+
+// no UTF-8 and CP437 systems
+if ((strcasecmp(PSI_SYSTEM_CODEPAGE,"UTF-8") != 0) && (strcasecmp(PSI_SYSTEM_CODEPAGE,"CP437") != 0)) {
+   $required_extensions[] = 'mbstring';
+}
 
 // also require 'com_dotnet' on Windows systems
 if (PHP_OS == 'WINNT') {
