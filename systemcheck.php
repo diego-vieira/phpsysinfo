@@ -1,7 +1,7 @@
 <?php
 
 // check extensions
-$required_extensions = array('pcre', 'mbstring', 'SimpleXML', 'xml', 'xsl');
+$required_extensions = array('pcre', 'mbstring', 'SimpleXML', 'xml');
 
 // also require 'com_dotnet' on Windows systems
 if (PHP_OS == 'WINNT') {
