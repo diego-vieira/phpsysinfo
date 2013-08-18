@@ -558,7 +558,6 @@ class JSONOutput extends Output implements PSI_Interface_Output
         }
 
         if (sizeof(unserialize(PSI_MBINFO))>0) {
-            $mbinfo['Fans'] = array();
             foreach ($mbinfo_detail->getMbFan() as $dev) {
                 $item = array(
                     'Label' => $dev->getName(),

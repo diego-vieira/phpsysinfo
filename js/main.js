@@ -60,7 +60,7 @@ function renderHardware(data) {
                 else
                     return this["CPU"][0]["CpuCore"]["Model"];
             }
-        },
+        }
     };
     $('#hardware').render(data["Hardware"], directives);
 
