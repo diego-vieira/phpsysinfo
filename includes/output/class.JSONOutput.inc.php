@@ -319,16 +319,14 @@ class JSONOutput extends Output implements PSI_Interface_Output
         foreach ($devices as $devname=>$devfunc) {
             $this->_json['Hardware'][$devname] = array();
             foreach (System::removeDupsAndCount(eval('return $this->_sys->'.$devfunc.';')) as $dev) {
+                $device = array('Name' => $dev->getName());                        
                 if ($dev->getCount() > 1) {
-                    $this->_json['Hardware'][$devname][]['Device'] = array(
-                        'Name' => $dev->getName(),
-                        'Count' => $dev->getCount()
-                    );
-                } else {
-                    $this->_json['Hardware'][$devname][]['Device'] = array(
-                        'Name' => $dev->getName()
-                    );
+                    $device['Count'] = $dev->getCount();
                 }
+                if ($dev->getCapacity() !== null) {
+                    $device['Capacity'] = $dev->getCapacity();
+                } 
+                $this->_json['Hardware'][$devname][]['Device'] = $device;
             }
         }
 
