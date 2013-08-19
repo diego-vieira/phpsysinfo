@@ -257,6 +257,20 @@
             </table>
         </div>
 
+<?php
+if (isset($plugins) && count($plugins) > 0) :
+    foreach ($plugins as $plugin) :
+        if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/template.html')):
+?>
+        <div class="col-lg-6">
+            <h4><?php echo $plugin; ?></h4>
+            <?php include APP_ROOT. '/plugins/'.$plugin.'/template.html'; ?>
+        </div>
+<?php 
+        endif;
+    endforeach; 
+endif;
+?>
     </div>
 
     
@@ -286,6 +300,9 @@
     <script src="js/vendor/transparency.min.js"></script>
     <script src="js/vendor/sorttable.js"></script>
     <script src="js/main.js"></script>
+<?php if(isset($plugins) && count($plugins) > 0) : ?>
+    <script src="js/plugins.js.php?<?php echo implode(',', $plugins); ?>"></script>
+<?php endif; ?>
 
 </body>
 </html>

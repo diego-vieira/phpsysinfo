@@ -23,6 +23,16 @@ $(document).ready(function () {
             renderTemperature(data);
             renderFans(data);
             renderPower(data);
+
+            // Rendering plugins
+            if (data['Plugins'] != undefined) {
+
+                for (plugin in data['Plugins']) {
+                    // dynamic call
+                    window['renderPlugin' + plugin](data['Plugins'][plugin]);
+                }
+
+            }
         }
     });
 });

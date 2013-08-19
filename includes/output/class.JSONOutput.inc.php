@@ -678,7 +678,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 $data = $object->getData();
 
                 if ($data !== null) {
-                    $plugins[] = $data;
+                    $plugins[get_class($object)] = $data;
                 }
             }
 

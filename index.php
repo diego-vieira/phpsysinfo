@@ -48,6 +48,7 @@ if (Error::singleton()->errorsExist()) {
 }
 
 $tpl = new Template("/templates/index.html");
+$tpl->set('plugins', CommonFunctions::getPlugins());
 echo $tpl->fetch();
 
 
