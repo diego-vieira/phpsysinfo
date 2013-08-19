@@ -277,4 +277,45 @@ class SMART extends PSI_Plugin
 
         return $this->xml->getSimpleXmlElement();
     }
+
+    public function getData()
+    {
+        if ( empty($this->_result) || empty($this->_ids)) {
+            return null;
+        }
+
+        $smart = array();
+        
+        // Fill with preferences
+        if (sizeof($this->_ids) > 0) {
+            $data = array();
+            foreach ($this->_ids as $id=>$column_name) {
+                $data[]['column'] = array(
+                    'id' => $id,
+                    'name' => $column_name
+                );
+            }
+            $smart['columns'] = $data;
+        }
+
+        // Now fill with S.M.A.R.T datas
+        if (sizeof($this->_result) > 0) {
+            $data = array();
+            foreach ($this->_result as $diskName=>$diskInfos) {
+                $data['name'] = $diskName;
+                foreach ($diskInfos as $lineInfos) {
+                    $subdata = array();
+                    foreach ($lineInfos as $label=>$value) {
+                        $subdata[$label] = $value;
+                    }
+                    if (sizeof($subdata) > 0) {
+                        $data['attributes'][]['attribute'] = $subdata;
+                    }
+                }
+            }
+            $smart['disks'][]['disk'] = $data;
+        }
+
+        return $smart;
+    }
 }
