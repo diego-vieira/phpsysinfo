@@ -307,46 +307,29 @@ class JSONOutput extends Output implements PSI_Interface_Output
      */
     private function _buildHardware()
     {
+        $devices  = array(
+            'PCI' => 'getPciDevices()',
+            'USB' => 'getUsbDevices()',
+            'IDE' => 'getIdeDevices()',
+            'SCSI' => 'getScsiDevices()'
+        );
+
         $this->_json['Hardware'] = array();
 
-        $this->_json['Hardware']['PCI'] = array();
-        foreach (System::removeDupsAndCount($this->_sys->getPciDevices()) as $dev) {
-            $this->_json['Hardware']['PCI'][]['Device'] = array(
-                'Name' => $dev->getName(),
-                'Count' => $dev->getCount()
-            );
-        }
-
-        $this->_json['Hardware']['USB'] = array();
-        foreach (System::removeDupsAndCount($this->_sys->getUsbDevices()) as $dev) {
-            $this->_json['Hardware']['USB'][]['Device'] = array(
-                'Name' => $dev->getName(),
-                'Count' => $dev->getCount()
-            );
-        }
-
-        $this->_json['Hardware']['IDE'] = array();
-        foreach (System::removeDupsAndCount($this->_sys->getIdeDevices()) as $dev) {
-            $ide = array(
-                'Name' => $dev->getName(),
-                'Count' => $dev->getCount()
-            );
-            if ($dev->getCapacity() !== null) {
-                $ide['Capacity'] = $dev->getCapacity();
+        foreach ($devices as $devname=>$devfunc) {
+            $this->_json['Hardware'][$devname] = array();
+            foreach (System::removeDupsAndCount(eval('return $this->_sys->'.$devfunc.';')) as $dev) {
+                if ($dev->getCount() > 1) {
+                    $this->_json['Hardware'][$devname][]['Device'] = array(
+                        'Name' => $dev->getName(),
+                        'Count' => $dev->getCount()
+                    );
+                } else {
+                    $this->_json['Hardware'][$devname][]['Device'] = array(
+                        'Name' => $dev->getName()
+                    );
+                }
             }
-            $this->_json['Hardware']['IDE'][]['Device'] = $ide;
-        }
-
-        $this->_json['Hardware']['SCSI'] = array();
-        foreach (System::removeDupsAndCount($this->_sys->getScsiDevices()) as $dev) {
-            $scsi = array(
-                'Name' => $dev->getName(),
-                'Count' => $dev->getCount()
-            );
-            if ($dev->getCapacity() !== null) {
-                $scsi['Capacity'] = $dev->getCapacity();
-            }
-            $this->_json['Hardware']['SCSI'][]['Device'] = $scsi;
         }
 
         $this->_json['Hardware']['CPU'] = array();
