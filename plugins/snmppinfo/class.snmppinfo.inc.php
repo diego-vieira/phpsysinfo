@@ -184,4 +184,34 @@ class SNMPPInfo extends PSI_Plugin
 
         return $this->xml->getSimpleXmlElement();
     }
+
+    public function getData()
+    {
+        if ( empty($this->_result) ) {
+            return null;
+        }
+
+        $snmp = array();
+        foreach ($this->_result as $printer=>$markersupplies_item) {
+            $data = array( 'Device' => $printer );
+            foreach ($markersupplies_item as $marker=>$snmppinfo_item) {
+                if ($marker==0) {
+                    $data['Name'] = $snmppinfo_item['prtMarkerSuppliesDescription'];
+                } else {
+                    $subdata = array(
+                        'SupplyUnit' => $snmppinfo_item['prtMarkerSuppliesSupplyUnit'],
+                        'MaxCapacity' => $snmppinfo_item['prtMarkerSuppliesMaxCapacity'],
+                        'Level'=> $snmppinfo_item['prtMarkerSuppliesLevel']
+                    );
+                    if (isset($snmppinfo_item['prtMarkerSuppliesDescription'])) {
+                        $subdata['Description'] = $snmppinfo_item['prtMarkerSuppliesDescription'];
+                    }
+                   $data['MarkerSupplies'][] = $subdata;
+                }
+            }
+            $snmp['Printer'][] = $data;
+        }
+
+        return $snmp;
+    }
 }
