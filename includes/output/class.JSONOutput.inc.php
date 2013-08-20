@@ -228,13 +228,12 @@ class JSONOutput extends Output implements PSI_Interface_Output
         }
 
         $this->_json['Options']['showPickListTemplate'] = defined('PSI_SHOW_PICKLIST_TEMPLATE') ? (PSI_SHOW_PICKLIST_TEMPLATE ? 'true' : 'false') : 'false';
-        
-        $this->_json['UsedPlugins'] = array();
+
         if (count($this->_plugins) > 0) {
             foreach ($this->_plugins as $plugin) {
-                $this->_json['UsedPlugins'][] = array('Plugin' => array('name' => $plugin));
+                $this->_json['UsedPlugins']['Plugin'][] = $plugin;
             }
-        } 
+        }
     }
 
     private function _buildVitals() {
@@ -270,8 +269,6 @@ class JSONOutput extends Output implements PSI_Interface_Output
      */
     private function _buildNetwork()
     {
-        $this->_json['Network'] = array();
-
         if ( defined('PSI_HIDE_NETWORK_INTERFACE') && is_string(PSI_HIDE_NETWORK_INTERFACE) ) {
             if (preg_match(ARRAY_EXP, PSI_HIDE_NETWORK_INTERFACE)) {
                 $hideDevices = eval(PSI_HIDE_NETWORK_INTERFACE);
@@ -295,7 +292,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 if ( defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && $dev->getInfo() )
                     $netdev['Info'] = $dev->getInfo();
 
-                $this->_json['Network'][]['NetDevice'] = $netdev;
+                $this->_json['Network']['NetDevice'][] = $netdev;
             }
         }
     }
@@ -314,23 +311,19 @@ class JSONOutput extends Output implements PSI_Interface_Output
             'SCSI' => 'getScsiDevices()'
         );
 
-        $this->_json['Hardware'] = array();
-
         foreach ($devices as $devname=>$devfunc) {
-            $this->_json['Hardware'][$devname] = array();
             foreach (System::removeDupsAndCount(eval('return $this->_sys->'.$devfunc.';')) as $dev) {
-                $device = array('Name' => $dev->getName());                        
+                $device = array('Name' => $dev->getName());
                 if ($dev->getCount() > 1) {
                     $device['Count'] = $dev->getCount();
                 }
                 if ($dev->getCapacity() !== null) {
                     $device['Capacity'] = $dev->getCapacity();
-                } 
-                $this->_json['Hardware'][$devname][]['Device'] = $device;
+                }
+                $this->_json['Hardware'][$devname][] = $device;
             }
         }
 
-        $this->_json['Hardware']['CPU'] = array();
         foreach ($this->_sys->getCpus() as $oneCpu) {
 
             $cpu = array('Model' => $oneCpu->getModel());
@@ -363,7 +356,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 $cpu['Load'] = $oneCpu->getLoad();
             }
 
-            $this->_json['Hardware']['CPU'][]['CpuCore'] = $cpu;
+            $this->_json['Hardware']['CPU'][] = $cpu;
         }
     }
 
@@ -409,8 +402,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
 
             $i = 1;
             foreach ($this->_sys->getSwapDevices() as $dev) {
-
-                $memory['Swap']['Devices'][]['Mount'] = $this->_fillDevice($dev, $i++);
+                $memory['Swap']['Mount'][] = $this->_fillDevice($dev, $i++);
             }
         }
 
@@ -447,14 +439,13 @@ class JSONOutput extends Output implements PSI_Interface_Output
             }
         }
 
-        $this->_json['FileSystem'] = array();
         $i = 1;
         foreach ($this->_sys->getDiskDevices() as $disk) {
             if (!in_array($disk->getMountPoint(), $hideMounts, true) 
                 && !in_array($disk->getFsType(), $hideFstypes, true) 
                 && !in_array($disk->getName(), $hideDisks, true)) {
 
-                $this->_json['FileSystem'][]['Mount'] = $this->_fillDevice($disk, $i++);
+                $this->_json['FileSystem']['Mount'][] = $this->_fillDevice($disk, $i++);
             }
         }
     }
@@ -498,7 +489,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
      */
     private function _buildMbinfo()
     {
-        $mbinfo = array(); 
+        $mbinfo = array();
         if ((sizeof(unserialize(PSI_MBINFO))>0) || PSI_HDDTEMP) {
 
             $mbinfo['Temperature'] = array();
@@ -517,7 +508,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
                             $item['Max'] = $dev->getMax();
                         }
 
-                        $mbinfo['Temperature'][]['Item'] = $item;
+                        $mbinfo['Temperature'][] = $item;
                     }
                 }
             }
@@ -533,7 +524,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
                         $item['Max'] = $dev->getMax();
                     }
 
-                    $mbinfo['Temperature'][]['Item'] = $item;
+                    $mbinfo['Temperature'][] = $item;
                 }
             }
         }
@@ -547,7 +538,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 if ($dev->getMin() !== null) {
                     $item['Min'] = $dev->getMin();
                 }
-                $mbinfo['Fans'][]['Item'] = $item;
+                $mbinfo['Fans'][] = $item;
             }
 
             foreach ($mbinfo_detail->getMbVolt() as $dev) {
@@ -561,7 +552,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 if ($dev->getMax() !== null) {
                     $item['Max'] = $dev->getMax();
                 }
-                $mbinfo['Voltage'][]['Item'] = $item;
+                $mbinfo['Voltage'][] = $item;
             }
 
             foreach ($mbinfo_detail->getMbPower() as $dev) {
@@ -573,7 +564,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
                     $item['Max'] = $dev->getMax();
                 }
 
-                $mbinfo['Power'][]['Item'] = $item;
+                $mbinfo['Power'][] = $item;
             }
         }
 
@@ -611,37 +602,37 @@ class JSONOutput extends Output implements PSI_Interface_Output
 
                 if ($ups->getOutages() !== null)
                     $item['OutagesCount'] = $ups->getOutages();
-                
+
                 if ($ups->getLastOutage() !== null)
                     $item['LastOutage'] = $ups->getLastOutage();
-                
+
                 if ($ups->getLastOutageFinish() !== null)
                     $item['LastOutageFinish'] = $ups->getLastOutageFinish();
-                
+
                 if ($ups->getLineVoltage() !== null)
                     $item['LineVoltage'] = $ups->getLineVoltage();
-                
+
                 if ($ups->getLoad() !== null)
                     $item['LoadPercent'] = $ups->getLoad();
-                
+
                 if ($ups->getBatteryDate() !== null)
                     $item['BatteryDate'] = $ups->getBatteryDate();
-                
+
                 if ($ups->getBatteryVoltage() !== null) 
                     $item['BatteryVoltage'] = $ups->getBatteryVoltage();
-                
+
                 if ($ups->getBatterCharge() !== null) 
                     $item['BatteryChargePercent'] = $ups->getBatterCharge();
-                
+
                 if ($ups->getTimeLeft() !== null)
                     $item['TimeLeftMinutes'] = $ups->getTimeLeft();
 
-                $upsinfo[]['UPS'] = $item;
+                $upsinfo[] = $item;
             }
         }
 
         if (count($upsinfo) > 0)
-            $this->_json['UPSInfo'] = $upsinfo;
+            $this->_json['UPSInfo']['UPS'] = $upsinfo;
     }
 
     /**
@@ -662,7 +653,6 @@ class JSONOutput extends Output implements PSI_Interface_Output
                     $plugins[get_class($object)] = $data;
                 }
             }
-
             if (count($plugins) > 0) {
                 $this->_json['Plugins'] = $plugins;
             }

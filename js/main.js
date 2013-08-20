@@ -66,9 +66,9 @@ function renderHardware(data) {
         Model: {
             text: function () {
                 if(this["CPU"].length > 1)
-                    return this["CPU"].length + " x " + this["CPU"][0]["CpuCore"]["Model"];
+                    return this["CPU"].length + " x " + this["CPU"][0]["Model"];
                 else
-                    return this["CPU"][0]["CpuCore"]["Model"];
+                    return this["CPU"][0]["Model"];
             }
         }
     };
@@ -92,19 +92,23 @@ function renderHardware(data) {
 
     for (hw_type in data["Hardware"]) {
         if (hw_type != "CPU") {
-            hw_data = [];
-
-            if (data["Hardware"][hw_type].length > 0) {
-                for (i=0; i < data["Hardware"][hw_type].length; i++) {
-                    hw_data.push(data["Hardware"][hw_type][i]["Device"]);
+            try {
+                hw_data = [];
+                if (data["Hardware"][hw_type].length > 0) {
+                    for (i=0; i < data["Hardware"][hw_type].length; i++) {
+                        hw_data.push(data["Hardware"][hw_type][i]);
+                    }
+                }
+                if (hw_data.length > 0) {
+                    $("#hardware-" + hw_type + " span").html(hw_data.length);
+                    $("#hw-dialog-"+hw_type+" ul").render(hw_data, hw_directives);
+                    $("#hardware-"+hw_type).show();
+                }
+                else {
+                    $("#hardware-"+hw_type).hide();
                 }
             }
-
-            if (hw_data.length > 0) {
-                $("#hardware-" + hw_type + " span").html(hw_data.length);
-                $("#hw-dialog-"+hw_type+" ul").render(hw_data, hw_directives);
-            }
-            else {
+            catch (err) {
                 $("#hardware-"+hw_type).hide();
             }
         }
@@ -189,9 +193,9 @@ function renderMemory(data) {
 
     var data_memory = [];
 
-    if (data["Memory"]["Swap"] !== undefined) {
-        for (var i = 0; i < data["Memory"]["Swap"]["Devices"].length; i++) {
-            data_memory.push(data["Memory"]["Swap"]["Devices"][i]["Mount"]);
+    if (data["Memory"]["Swap"]["Mount"] !== undefined) {
+        for (var i = 0; i < data["Memory"]["Swap"]["Mount"].length; i++) {
+            data_memory.push(data["Memory"]["Swap"]["Mount"][i]);
         }
     }
 
@@ -237,12 +241,18 @@ function renderFilesystem(data) {
         }
     };
 
-    var fs_data = [];
-    for (var i = 0; i < data["FileSystem"].length; i++) {
-        fs_data.push(data["FileSystem"][i]["Mount"]);
+    try {
+        var fs_data = [];
+        for (var i = 0; i < data["FileSystem"]["Mount"].length; i++) {
+            fs_data.push(data["FileSystem"]["Mount"][i]);
+        }
+        $('#filesystem-data').render(fs_data, directives);
+        sorttable.innerSortFunction.apply(document.getElementById('MountPoint'), []);
+        $("#block_filesystem").show();
     }
-    $('#filesystem-data').render(fs_data, directives);
-    sorttable.innerSortFunction.apply(document.getElementById('MountPoint'), []);
+    catch (err) {
+        $("#block_filesystem").hide();
+    }
 }
 
 
@@ -265,18 +275,24 @@ function renderNetwork(data) {
         }
     };
 
-    var network_data = [];
-    for (var i = 0; i < data["Network"].length; i++) {
-        network_data.push(data["Network"][i]["NetDevice"]);
+    try {
+        var network_data = [];
+        for (var i = 0; i < data["Network"]["NetDevice"].length; i++) {
+            network_data.push(data["Network"]["NetDevice"][i]);
+        }
+        $('#network-data').render(network_data, directives);
+        $("#block_network").show();
     }
-    $('#network-data').render(network_data, directives);
+    catch (err) {
+        $("#block_network").hide();
+    }
 }
 
 function renderVoltage(data) {
     try {
         var voltage_data = [];
         for (var i = 0; i < data["MBInfo"]["Voltage"].length; i++) {
-            voltage_data.push(data["MBInfo"]["Voltage"][i]["Item"]);
+            voltage_data.push(data["MBInfo"]["Voltage"][i]);
         }
         $('#voltage-data').render(voltage_data);
         $("#block_voltage").show();
@@ -300,7 +316,7 @@ function renderTemperature(data) {
     try {
         var temperature_data = [];
         for (var i = 0; i < data["MBInfo"]["Temperature"].length; i++) {
-            temperature_data.push(data["MBInfo"]["Temperature"][i]["Item"]);
+            temperature_data.push(data["MBInfo"]["Temperature"][i]);
         }
         $('#temperature-data').render(temperature_data,directives);
         $("#block_temperature").show();
@@ -313,7 +329,7 @@ function renderFans(data) {
     try {
         var fans_data = [];
         for (var i = 0; i < data["MBInfo"]["Fans"].length; i++) {
-            fans_data.push(data["MBInfo"]["Fans"][i]["Item"]);
+            fans_data.push(data["MBInfo"]["Fans"][i]);
         }
         $('#fans-data').render(fans_data);
         $("#block_fans").show();
@@ -327,7 +343,7 @@ function renderPower(data) {
     try {
         var power_data = [];
         for (var i = 0; i < data["MBInfo"]["Power"].length; i++) {
-            power_data.push(data["MBInfo"]["Power"][i]["Item"]);
+            power_data.push(data["MBInfo"]["Power"][i]);
         }
         $('#power-data').render(power_data);
         $("#block_power").show();

@@ -285,12 +285,12 @@ class SMART extends PSI_Plugin
         }
 
         $smart = array();
-        
+
         // Fill with preferences
         if (sizeof($this->_ids) > 0) {
             $data = array();
             foreach ($this->_ids as $id=>$column_name) {
-                $data[]['column'] = array(
+                $data[] = array(
                     'id' => $id,
                     'name' => $column_name
                 );
@@ -309,11 +309,11 @@ class SMART extends PSI_Plugin
                         $subdata[$label] = $value;
                     }
                     if (sizeof($subdata) > 0) {
-                        $data['attributes'][]['attribute'] = $subdata;
+                        $data['attributes'][] = $subdata;
                     }
                 }
+                $smart['disks'][] = $data;
             }
-            $smart['disks'][]['disk'] = $data;
         }
 
         return $smart;

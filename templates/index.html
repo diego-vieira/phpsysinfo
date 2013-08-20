@@ -86,7 +86,7 @@
                         <td>&nbsp;</td>
                     </tr>
                     <?php foreach (array("USB", "PCI", "IDE", "SCSI") as $type): ?>
-                    <tr id="hardware-<?php echo $type; ?>">
+                    <tr id="hardware-<?php echo $type; ?>" style="display:none" >
                         <th><?php echo $type; ?></th>
                         <td>Number of devices: <span data-bind="<?php echo $type; ?>"></span></td>
                         <td>
@@ -141,7 +141,7 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-12">
+    <div id="block_filesystem" style="display:none" class="col-lg-12">
         <div class="panel panel-primary">
             <div class="panel-heading">Mounted Filesystems</div>
             <div class="panel-body">
@@ -175,7 +175,7 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-6">
+    <div id="block_network" style="display:none" class="col-lg-6">
         <div class="panel panel-primary">
             <div class="panel-heading">Network Interface</div>
             <div class="panel-body">

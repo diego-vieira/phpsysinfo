@@ -209,7 +209,7 @@ class ipmiinfo extends PSI_Plugin
         if (sizeof($arrBuff) > 0) {
             $data = array();
             foreach ($arrBuff as $arrValue) {
-                $data[]['Item'] = array(
+                $data[] = array(
                     'Label' => $arrValue['label'],
                     'Value' => $arrValue['value'],
                     'State' => $arrValue['state'],
@@ -223,7 +223,7 @@ class ipmiinfo extends PSI_Plugin
         if (sizeof($arrBuff) > 0) {
             $data = array();
             foreach ($arrBuff as $arrValue) {
-                $data[]['Item'] = array(
+                $data[] = array(
                     'Label' => $arrValue['label'],
                     'Value' => $arrValue['value'],
                     'State' => $arrValue['state'],
@@ -237,7 +237,7 @@ class ipmiinfo extends PSI_Plugin
         if (sizeof($arrBuff) > 0) {
             $data = array();
             foreach ($arrBuff as $arrValue) {
-                $data[]['Item'] = array(
+                $data[] = array(
                     'Label' => $arrValue['label'],
                     'Value' => $arrValue['value'],
                     'State' => $arrValue['state'],
@@ -252,7 +252,7 @@ class ipmiinfo extends PSI_Plugin
         if (sizeof($arrBuff) > 0) {
             $data = array();
             foreach ($arrBuff as $arrValue) {
-                $data[]['Item'] = array(
+                $data[] = array(
                     'Label' => $arrValue['label'],
                     'Value' => $arrValue['value'],
                     'State' => $arrValue['state']
