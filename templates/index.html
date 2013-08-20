@@ -117,22 +117,23 @@
                         <th class="rightCell">Size</th>
                     </tr>
                     </thead>
-                    <tr id="memory-data">
-                        <td><span data-bind="Type"/></td>
-                        <td><span data-bind="Usage"/></td>
-                        <td class="rightCell"><span data-bind="Free"/></td>
-                        <td class="rightCell"><span data-bind="Used"/></td>
-                        <td class="rightCell"><span data-bind="Total"/></td>
-                    </tr>
-                    <tbody id="swap-data">
-                    <tr>
-                        <td><span data-bind="Name"/></td>
+                    <tbody id="memory-data">
+                        <th><span data-bind="Type"/></th>
                         <td><span data-bind="Usage"/></td>
                         <td class="rightCell"><span data-bind="Free"/></td>
                         <td class="rightCell"><span data-bind="Used"/></td>
                         <td class="rightCell"><span data-bind="Total"/></td>
                     </tr>
                     </tbody>
+                    <tfoot id="swap-data">
+                    <tr>
+                        <th><span data-bind="Name"/></th>
+                        <td><span data-bind="Usage"/></td>
+                        <td class="rightCell"><span data-bind="Free"/></td>
+                        <td class="rightCell"><span data-bind="Used"/></td>
+                        <td class="rightCell"><span data-bind="Total"/></td>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -158,7 +159,7 @@
                     </thead>
                     <tbody id="filesystem-data">
                     <tr>
-                        <td><span data-bind="MountPoint"/></td>
+                        <th><span data-bind="MountPoint"/></th>
                         <td><span data-bind="FSType"/></td>
                         <td><span data-bind="Name"/></td>
                         <td><span data-bind="Percent"/></td>
@@ -189,7 +190,7 @@
                     </thead>
                     <tbody id="network-data">
                     <tr>
-                        <td><span data-bind="Name"/></td>
+                        <th><span data-bind="Name"/></th>
                         <td class="rightCell"><span data-bind="RxBytes"/></td>
                         <td class="rightCell"><span data-bind="TxBytes"/></td>
                         <td class="rightCell"><span data-bind="Drops"/></td>
