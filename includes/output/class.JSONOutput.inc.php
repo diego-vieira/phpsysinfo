@@ -636,7 +636,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 if ($ups->getTimeLeft() !== null)
                     $item['TimeLeftMinutes'] = $ups->getTimeLeft();
 
-                $upsinfo['Items'][]['Item'] = $item;
+                $upsinfo[]['Device'] = $item;
             }
         }
 
