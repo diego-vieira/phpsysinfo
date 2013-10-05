@@ -51,10 +51,16 @@ class BAT extends PSI_Plugin
                     $buffer_state .= 'POWER_SUPPLY_TEMP='.$buffer1;
                 }
                 if (CommonFunctions::rfts('/sys/class/power_supply/battery/batt_vol', $buffer1, 1, 4096, false)) {
-                   $buffer_state .= 'POWER_SUPPLY_VOLTAGE_NOW='.($buffer1*1000)."\n";
+                   if ($buffer1<100000) { // uV or mV detection
+                        $buffer1 = $buffer1*1000;
+                   }
+                   $buffer_state .= 'POWER_SUPPLY_VOLTAGE_NOW='.$buffer1."\n";
                 }
                 if (CommonFunctions::rfts('/sys/class/power_supply/battery/voltage_max_design', $buffer1, 1, 4096, false)) {
-                   $buffer_state .= 'POWER_SUPPLY_VOLTAGE_MAX_DESIGN='.($buffer1*1000)."\n";
+                   if ($buffer1<100000) { // uV or mV detection
+                        $buffer1 = $buffer1*1000;
+                   }
+                   $buffer_state .= 'POWER_SUPPLY_VOLTAGE_MAX_DESIGN='.$buffer1."\n";
                 }
                 if (CommonFunctions::rfts('/sys/class/power_supply/battery/technology', $buffer1, 1, 4096, false)) {
                     $buffer_state .= 'POWER_SUPPLY_TECHNOLOGY='.$buffer1;
