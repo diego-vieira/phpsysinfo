@@ -257,5 +257,4 @@ class SNMPPInfo extends PSI_Plugin
 
         return $snmp;
     }
-
 }
