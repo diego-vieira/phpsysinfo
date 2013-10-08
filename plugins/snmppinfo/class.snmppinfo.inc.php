@@ -170,8 +170,7 @@ class SNMPPInfo extends PSI_Plugin
                     $this->_result[$printer][99][$data[1]]["message"]=trim($data[2],"\"");
                 }
                 if (preg_match('/^\.1\.3\.6\.1\.2\.1\.43\.18\.1\.1\.2\.1\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
-                    if($data[2] != 0)
-                        $this->_result[$printer][99][$data[1]]["severity"]=$data[2];
+                    $this->_result[$printer][99][$data[1]]["severity"]=$data[2];
                 }
             }
         }
@@ -194,10 +193,12 @@ class SNMPPInfo extends PSI_Plugin
                     $xmlsnmppinfo_printer->addAttribute("Name", $snmppinfo_item['prtMarkerSuppliesDescription']);
                 } 
                 else if ($marker==99) {
-                    foreach($snmppinfo_item as $item=>$iarr) {
-                        $xmlsnmppinfo_errors = $xmlsnmppinfo_printer->addChild("PrinterMessage");
-                        $xmlsnmppinfo_errors->addAttribute("Message",$iarr["message"]);
-                        $xmlsnmppinfo_errors->addAttribute("Severity",$iarr["severity"]);
+                    foreach($snmppinfo_item as $item=>$iarr) {                           
+                        if($iarr["message"] != "") {
+                            $xmlsnmppinfo_errors = $xmlsnmppinfo_printer->addChild("PrinterMessage");
+                            $xmlsnmppinfo_errors->addAttribute("Message",$iarr["message"]);
+                            $xmlsnmppinfo_errors->addAttribute("Severity",$iarr["severity"]);
+                        }
                     }
                }
                else {
@@ -256,5 +257,5 @@ class SNMPPInfo extends PSI_Plugin
 
         return $snmp;
     }
-}
 
+}
