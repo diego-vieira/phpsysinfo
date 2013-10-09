@@ -13,6 +13,8 @@ phpSysInfo 3.1.8
 ----------------
 
  - [ADD] Add printers messages in the XML output
+ - [ADD] Hebrew Translation he.xml
+
  - [UPD] LMSensors sensors name for Mac hardware
 
 phpSysInfo 3.1.7
