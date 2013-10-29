@@ -14,7 +14,8 @@ phpSysInfo 3.1.8
 
  - [ADD] Add printers messages in the XML output
  - [ADD] Hebrew Translation he.xml
-
+ - [ADD] PSStatus plugin - added optional regular expression search in the process name
+ 
  - [UPD] LMSensors sensors name for Mac hardware
 
 phpSysInfo 3.1.7
