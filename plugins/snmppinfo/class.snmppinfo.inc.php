@@ -54,15 +54,15 @@ class SNMPPInfo extends PSI_Plugin
                         $printers = array(PSI_PLUGIN_SNMPPINFO_DEVICES);
                     }
                     foreach ($printers as $printer) {
-                        CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 ".$printer." 1.3.6.1.2.1.1.5", $buffer, PSI_DEBUG);
+                        CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 ".$printer." .1.3.6.1.2.1.1.5", $buffer, PSI_DEBUG);
                         if (strlen(trim($buffer)) > 0) {
                             $this->_filecontent[$printer] = $buffer;
                             
-                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 ".$printer." 1.3.6.1.2.1.43.11.1.1", $buffer2, PSI_DEBUG);
+                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 ".$printer." .1.3.6.1.2.1.43.11.1.1", $buffer2, PSI_DEBUG);
                             if (strlen(trim($buffer2)) > 0) {
                                $this->_filecontent[$printer] = $this->_filecontent[$printer]."\n".$buffer2;
                             } 
-                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 ".$printer." 1.3.6.1.2.1.43.18.1.1", $buffer3, PSI_DEBUG);
+                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 ".$printer." .1.3.6.1.2.1.43.18.1.1", $buffer3, PSI_DEBUG);
                             if (strlen(trim($buffer3)) > 0) {
                                $this->_filecontent[$printer] =  $this->_filecontent[$printer]."\n".$buffer3;
                             } 
@@ -80,27 +80,48 @@ class SNMPPInfo extends PSI_Plugin
                         $printers = array(PSI_PLUGIN_SNMPPINFO_DEVICES);
                     }
                     foreach ($printers as $printer) {
-                        if (! PSI_DEBUG) restore_error_handler();
-                        $bufferarr=snmprealwalk($printer, "public", "1.3.6.1.2.1.1.5", 1000000, 1);
-                        if (! PSI_DEBUG) set_error_handler('errorHandlerPsi');
+                        if (! PSI_DEBUG) {
+                            restore_error_handler(); /* default error handler */
+                            $old_err_rep = error_reporting();
+                            error_reporting(E_ERROR); /* fatal errors only */
+                        }
+                        $bufferarr=snmprealwalk($printer, "public", ".1.3.6.1.2.1.1.5", 1000000, 1);
+                        if (! PSI_DEBUG) {
+                            error_reporting($old_err_rep); /* restore error level */
+                            set_error_handler('errorHandlerPsi'); /* restore error handler */
+                        }
                         if (! empty($bufferarr)) {
                             $buffer="";
                             foreach ($bufferarr as $id=>$string) {
                                 $buffer=$buffer.$id." = ".$string."\n";
                             }
 
-                            if (! PSI_DEBUG) restore_error_handler();
-                            $bufferarr2=snmprealwalk($printer, "public", "1.3.6.1.2.1.43.11.1.1", 1000000, 1);
-                            if (! PSI_DEBUG) set_error_handler('errorHandlerPsi');
+                            if (! PSI_DEBUG) {
+                                restore_error_handler(); /* default error handler */
+                                $old_err_rep = error_reporting();
+                                error_reporting(E_ERROR); /* fatal errors only */
+                            }
+                            $bufferarr2=snmprealwalk($printer, "public", ".1.3.6.1.2.1.43.11.1.1", 1000000, 1);
+                            if (! PSI_DEBUG) {
+                                error_reporting($old_err_rep); /* restore error level */
+                                set_error_handler('errorHandlerPsi'); /* restore error handler */
+                            }
                             if (! empty($bufferarr2)) {
                                 foreach ($bufferarr2 as $id=>$string) {
                                     $buffer=$buffer.$id." = ".$string."\n";
                                 }
                             }
                             
-                            if (! PSI_DEBUG) restore_error_handler();
-                            $bufferarr3=snmprealwalk($printer, "public", "1.3.6.1.2.1.43.18.1.1", 1000000, 1);
-                            if (! PSI_DEBUG) set_error_handler('errorHandlerPsi');
+                            if (! PSI_DEBUG) {
+                                restore_error_handler(); /* default error handler */
+                                $old_err_rep = error_reporting();
+                                error_reporting(E_ERROR); /* fatal errors only */
+                            }
+                            $bufferarr3=snmprealwalk($printer, "public", ".1.3.6.1.2.1.43.18.1.1", 1000000, 1);
+                            if (! PSI_DEBUG) {
+                                error_reporting($old_err_rep); /* restore error level */
+                                set_error_handler('errorHandlerPsi'); /* restore error handler */
+                            }
                             if (! empty($bufferarr3)) {
                                 foreach ($bufferarr3 as $id=>$string) {
                                     $buffer=$buffer.$id." = ".$string."\n";
@@ -194,7 +215,7 @@ class SNMPPInfo extends PSI_Plugin
                 } 
                 else if ($marker==99) {
                     foreach($snmppinfo_item as $item=>$iarr) {                           
-                        if($iarr["message"] != "") {
+                        if (isset($iarr["message"]) && $iarr["message"] != "") {
                             $xmlsnmppinfo_errors = $xmlsnmppinfo_printer->addChild("PrinterMessage");
                             $xmlsnmppinfo_errors->addAttribute("Message",$iarr["message"]);
                             $xmlsnmppinfo_errors->addAttribute("Severity",$iarr["severity"]);
