@@ -12,7 +12,7 @@ phpSysInfo 4.0.0
 phpSysInfo 3.1.9
 ----------------
 
- - [ADD] OpenMandriva to detected distros
+ - [ADD] OpenMandriva and SteamOS to detected distros
 
 phpSysInfo 3.1.8
 ----------------
