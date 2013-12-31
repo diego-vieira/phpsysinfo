@@ -12,7 +12,7 @@ phpSysInfo 4.0.0
 phpSysInfo 3.1.9
 ----------------
 
- - [ADD] OpenMandriva and SteamOS to detected distros
+ - [ADD] OpenMandriva, SteamOS and ROSA Desktop Fresh to detected distros
 
 phpSysInfo 3.1.8
 ----------------
@@ -81,7 +81,7 @@ phpSysInfo 3.1.4
 phpSysInfo 3.1.3
 ----------------
 
- - [ADD] IPFire, Sabayon, PearOS, ClearOS, Frugalware, Fuduntu, Foresight, Tinycore, ALT Linux, ROSA and RedHatEnterpriseServer to detected distros
+ - [ADD] IPFire, Sabayon, PearOS, ClearOS, Frugalware, Fuduntu, Foresight, Tinycore, ALT Linux, ROSA Desktop Marathon and RedHatEnterpriseServer to detected distros
 
  - [UPD] Added "username" to filtered mount credentials
  - [UPD] jQuery 2.0 coexistent with jQuery 1.9.1 for old Internet Explorer browser versions (IE 6/7/8)
