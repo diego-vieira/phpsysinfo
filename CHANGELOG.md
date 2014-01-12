@@ -12,7 +12,7 @@ phpSysInfo 4.0.0
 phpSysInfo 3.1.9
 ----------------
 
- - [ADD] OpenMandriva, SteamOS, ROSA Enterprise Server and ROSA Desktop Fresh to detected distros
+ - [ADD] Korora, OpenMandriva, SteamOS, ROSA Enterprise Server and ROSA Desktop Fresh to detected distros
 
 phpSysInfo 3.1.8
 ----------------
