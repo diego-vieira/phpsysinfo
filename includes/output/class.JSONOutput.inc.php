@@ -106,7 +106,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 } else {
                     $sensorprograms = array(strtolower(PSI_SENSOR_PROGRAM));
                 }
-                foreach($sensorprograms as $sensorprogram) {
+                foreach ($sensorprograms as $sensorprogram) {
                     if (!file_exists(APP_ROOT.'/includes/mb/class.'.$sensorprogram.'.inc.php')) {
                         $this->error->addError("file_exists(class.".htmlspecialchars($sensorprogram).".inc.php)", "specified sensor program is not supported");
                     } else {
@@ -185,15 +185,17 @@ class JSONOutput extends Output implements PSI_Interface_Output
     }
 
     /**
-     * Returns the plugins 
+     * Returns the plugins
      *
      * @return Array the loaded plugins
      */
-    public function getPlugins() {
+    public function getPlugins()
+    {
         return $this->_plugins;
     }
 
-    private function _buildPSIHeader() {
+    private function _buildPSIHeader()
+    {
         $this->_json = array(
             'Generation' => array(
                 'version' => PSI_VERSION_STRING,
@@ -236,8 +238,8 @@ class JSONOutput extends Output implements PSI_Interface_Output
         }
     }
 
-    private function _buildVitals() {
-
+    private function _buildVitals()
+    {
         $vitals = array(
             'Hostname' => $this->_sys->getHostname(),
             'IPAddr' => $this->_sys->getIp(),
@@ -441,8 +443,8 @@ class JSONOutput extends Output implements PSI_Interface_Output
 
         $i = 1;
         foreach ($this->_sys->getDiskDevices() as $disk) {
-            if (!in_array($disk->getMountPoint(), $hideMounts, true) 
-                && !in_array($disk->getFsType(), $hideFstypes, true) 
+            if (!in_array($disk->getMountPoint(), $hideMounts, true)
+                && !in_array($disk->getFsType(), $hideFstypes, true)
                 && !in_array($disk->getName(), $hideDisks, true)) {
 
                 $this->_json['FileSystem']['Mount'][] = $this->_fillDevice($disk, $i++);
@@ -453,8 +455,8 @@ class JSONOutput extends Output implements PSI_Interface_Output
     /**
      * fill a xml element with atrributes from a disk device
      *
-     * @param DiskDevice        $dev   DiskDevice
-     * @param Integer           $i     counter
+     * @param DiskDevice $dev DiskDevice
+     * @param Integer    $i   counter
      *
      * @return Void
      */
@@ -495,7 +497,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
             $mbinfo['Temperature'] = array();
 
             if (sizeof(unserialize(PSI_MBINFO))>0) {
-                foreach(unserialize(PSI_MBINFO) as $mbinfoclass) {
+                foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
                     $mbinfo_data = new $mbinfoclass();
                     $mbinfo_detail = $mbinfo_data->getMBInfo();
                     foreach ($mbinfo_detail->getMbTemp() as $dev) {
@@ -618,10 +620,10 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 if ($ups->getBatteryDate() !== null)
                     $item['BatteryDate'] = $ups->getBatteryDate();
 
-                if ($ups->getBatteryVoltage() !== null) 
+                if ($ups->getBatteryVoltage() !== null)
                     $item['BatteryVoltage'] = $ups->getBatteryVoltage();
 
-                if ($ups->getBatterCharge() !== null) 
+                if ($ups->getBatterCharge() !== null)
                     $item['BatteryChargePercent'] = $ups->getBatterCharge();
 
                 if ($ups->getTimeLeft() !== null)

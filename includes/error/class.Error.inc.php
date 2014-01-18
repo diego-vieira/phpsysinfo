@@ -214,7 +214,8 @@ class Error
      *
      * @return Array a list of errors
      */
-    public function getErrors() {
+    public function getErrors()
+    {
         return $this->_arrErrorList;
     }
 

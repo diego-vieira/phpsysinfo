@@ -112,7 +112,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                                         }
                                     }
                                 }
- 
+
                                 if (is_null($out) || (trim($out) == "") || (substr(trim($out),0 ,1) != "/")) {
                                     define('PSI_MODE_POPEN', true);
                                 }

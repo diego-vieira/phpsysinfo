@@ -61,10 +61,8 @@ if (isset($output) && is_object($output)) {
         header("Content-Type: application/javascript\n\n");
         // check for jsonp with callback name restriction
         echo (!preg_match('/[^A-Za-z0-9_]/', $_GET['callback']) ? $_GET['callback'] : '') . '('.$json.')';
-    }
-    else {
+    } else {
         header("Content-Type: application/json\n\n");
         echo $json;
     }
 }
-

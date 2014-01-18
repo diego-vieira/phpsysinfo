@@ -36,8 +36,7 @@ require_once APP_ROOT . '/includes/autoloader.inc.php';
 // Load configuration and perform system check
 try {
     require_once APP_ROOT . '/read_config.php';
-}
-catch (Exception $e) {;}
+} catch (Exception $e) {;}
 require_once APP_ROOT . '/systemcheck.php';
 
 if (Error::singleton()->errorsExist()) {
@@ -50,5 +49,3 @@ if (Error::singleton()->errorsExist()) {
 $tpl = new Template("/templates/index.html");
 $tpl->set('plugins', CommonFunctions::getPlugins());
 echo $tpl->fetch();
-
-

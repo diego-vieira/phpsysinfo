@@ -55,5 +55,3 @@ if (isset($output) && is_object($output)) {
         $output->run();
     }
 }
-
-
