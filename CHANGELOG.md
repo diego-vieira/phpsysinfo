@@ -12,6 +12,8 @@ phpSysInfo 4.0.0
 phpSysInfo 3.1.9
 ----------------
 
+ - [NEW] New plugin DMRaid - software raid status
+
  - [ADD] Semplice, SolydXK, Parsix, RedFlag, Amazon, Korora, OpenMandriva, SteamOS, ROSA Enterprise Server and ROSA Desktop Fresh to detected distros
 
  - [UPD] Rebuilding of the Linux distribution detection
