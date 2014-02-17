@@ -12,7 +12,7 @@ phpSysInfo 4.0.0
 phpSysInfo 3.1.11
 ----------------
 
- - [ADD] Slitaz to detected distros
+ - [ADD] SliTaz to detected distros
 
 phpSysInfo 3.1.10
 ----------------
