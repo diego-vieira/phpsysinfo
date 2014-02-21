@@ -358,7 +358,7 @@ function renderCurrent(data) {
     try {
         var current_data = [];
         for (var i = 0; i < data["MBInfo"]["Current"].length; i++) {
-            power_data.push(data["MBInfo"]["Current"][i]);
+            current_data.push(data["MBInfo"]["Current"][i]);
         }
         $('#current-data').render(current_data);
         $("#block_current").show();
