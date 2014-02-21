@@ -568,6 +568,19 @@ class JSONOutput extends Output implements PSI_Interface_Output
 
                 $mbinfo['Power'][] = $item;
             }
+
+            foreach ($mbinfo_detail->getMbCurrent() as $dev) {
+                $item = array(
+                    'Label' => $dev->getName(),
+                    'Value' => $dev->getValue()
+                );
+                if ($dev->getMax() !== null) {
+                    $item['Max'] = $dev->getMax();
+                }
+
+                $mbinfo['Current'][] = $item;
+            }
+
         }
 
         if (count($mbinfo) > 0)
