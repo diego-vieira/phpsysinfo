@@ -23,6 +23,7 @@ $(document).ready(function () {
             renderTemperature(data);
             renderFans(data);
             renderPower(data);
+            renderCurrent(data);
 
             // Rendering plugins
             if (data['Plugins'] != undefined) {
@@ -350,6 +351,20 @@ function renderPower(data) {
     }
     catch (err) {
         $("#block_power").hide();
+    }
+}
+
+function renderCurrent(data) {
+    try {
+        var current_data = [];
+        for (var i = 0; i < data["MBInfo"]["Current"].length; i++) {
+            power_data.push(data["MBInfo"]["Current"][i]);
+        }
+        $('#current-data').render(current_data);
+        $("#block_current").show();
+    }
+    catch (err) {
+        $("#block_current").hide();
     }
 }
 
