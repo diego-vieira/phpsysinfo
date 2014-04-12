@@ -12,7 +12,7 @@ phpSysInfo 4.0.0
 phpSysInfo 3.1.12
 ----------------
 
- - [ADD] UltimateEdition, BOSS, Canaima, VortexBox, KaOS and NixOS to detected distros
+ - [ADD] GoboLinux, UltimateEdition, BOSS, Canaima, VortexBox, KaOS and NixOS to detected distros
  - [ADD] OpenHardwareMonitor sensor program support
  - [ADD] Possibility to define multiple UPS_PROGRAM
  - [ADD] UPS_NUT_LIST option
