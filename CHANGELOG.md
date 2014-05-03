@@ -9,6 +9,12 @@ phpSysInfo 4.0.0
  - [NEW] Rewrite the frontend with Bootstrap3 and Transparency (JSON)
  - [NEW] Frontend focused on information, much faster, much easier
 
+phpSysInfo 3.1.13
+----------------
+
+ - [UPD] jQuery 2.1.1 and jQuery 1.11.1
+ - [UPD] Romanian Translation ro.xml
+
 phpSysInfo 3.1.12
 ----------------
 
