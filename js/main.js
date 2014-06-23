@@ -290,12 +290,22 @@ function renderNetwork(data) {
 }
 
 function renderVoltage(data) {
+    var directives = {
+        Label: {
+            text: function () {
+                if (this["Event"] === undefined)
+                    return this["Label"];
+                else
+                    return this["Label"] + " (" + this["Event"] + ")";
+            }
+        }
+    };
     try {
         var voltage_data = [];
         for (var i = 0; i < data["MBInfo"]["Voltage"].length; i++) {
             voltage_data.push(data["MBInfo"]["Voltage"][i]);
         }
-        $('#voltage-data').render(voltage_data);
+        $('#voltage-data').render(voltage_data, directives);
         $("#block_voltage").show();
     }
     catch (err) {
@@ -304,35 +314,53 @@ function renderVoltage(data) {
 }
 
 function renderTemperature(data) {
-
     var directives = {
         Value: {
             text: function () {
                 return this["Value"] + data["Options"]["tempFormat"];
             }
+        },
+        Label: {
+            text: function () {
+                if (this["Event"] === undefined)
+                    return this["Label"];
+                else
+                    return this["Label"] + " (" + this["Event"] + ")";
+            }
         }
     };
-
 
     try {
         var temperature_data = [];
         for (var i = 0; i < data["MBInfo"]["Temperature"].length; i++) {
             temperature_data.push(data["MBInfo"]["Temperature"][i]);
         }
-        $('#temperature-data').render(temperature_data,directives);
+        $('#temperature-data').render(temperature_data, directives);
         $("#block_temperature").show();
     }
     catch (err) {
         $("#block_temperature").hide();
     }
 }
+
 function renderFans(data) {
+    var directives = {
+        Label: {
+            text: function () {
+                if (this["Event"] === undefined)
+                    return this["Label"];
+                else
+                    return this["Label"] + " (" + this["Event"] + ")";
+            }
+        }
+    };
+
     try {
         var fans_data = [];
         for (var i = 0; i < data["MBInfo"]["Fans"].length; i++) {
             fans_data.push(data["MBInfo"]["Fans"][i]);
         }
-        $('#fans-data').render(fans_data);
+        $('#fans-data').render(fans_data, directives);
         $("#block_fans").show();
     }
     catch (err) {
@@ -341,12 +369,23 @@ function renderFans(data) {
 }
 
 function renderPower(data) {
+    var directives = {
+        Label: {
+            text: function () {
+                if (this["Event"] === undefined)
+                    return this["Label"];
+                else
+                    return this["Label"] + " (" + this["Event"] + ")";
+            }
+        }
+    };
+
     try {
         var power_data = [];
         for (var i = 0; i < data["MBInfo"]["Power"].length; i++) {
             power_data.push(data["MBInfo"]["Power"][i]);
         }
-        $('#power-data').render(power_data);
+        $('#power-data').render(power_data, directives);
         $("#block_power").show();
     }
     catch (err) {
@@ -355,12 +394,23 @@ function renderPower(data) {
 }
 
 function renderCurrent(data) {
+    var directives = {
+        Label: {
+            text: function () {
+                if (this["Event"] === undefined)
+                    return this["Label"];
+                else
+                    return this["Label"] + " (" + this["Event"] + ")";
+            }
+        }
+    };
+
     try {
         var current_data = [];
         for (var i = 0; i < data["MBInfo"]["Current"].length; i++) {
             current_data.push(data["MBInfo"]["Current"][i]);
         }
-        $('#current-data').render(current_data);
+        $('#current-data').render(current_data, directives);
         $("#block_current").show();
     }
     catch (err) {
