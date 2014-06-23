@@ -509,6 +509,9 @@ class JSONOutput extends Output implements PSI_Interface_Output
                         if ($dev->getMax() !== null) {
                             $item['Max'] = $dev->getMax();
                         }
+                        if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                            $item['Event'] = $dev->getEvent();
+                        }
 
                         $mbinfo['Temperature'][] = $item;
                     }
@@ -540,6 +543,10 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 if ($dev->getMin() !== null) {
                     $item['Min'] = $dev->getMin();
                 }
+                if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                    $item['Event'] = $dev->getEvent();
+                }
+
                 $mbinfo['Fans'][] = $item;
             }
 
@@ -554,6 +561,10 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 if ($dev->getMax() !== null) {
                     $item['Max'] = $dev->getMax();
                 }
+                if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                    $item['Event'] = $dev->getEvent();
+                }
+
                 $mbinfo['Voltage'][] = $item;
             }
 
@@ -564,6 +575,9 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 );
                 if ($dev->getMax() !== null) {
                     $item['Max'] = $dev->getMax();
+                }
+                if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                    $item['Event'] = $dev->getEvent();
                 }
 
                 $mbinfo['Power'][] = $item;
@@ -576,6 +590,9 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 );
                 if ($dev->getMax() !== null) {
                     $item['Max'] = $dev->getMax();
+                }
+                if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                    $item['Event'] = $dev->getEvent();
                 }
 
                 $mbinfo['Current'][] = $item;
