@@ -296,7 +296,7 @@ function renderVoltage(data) {
                 if (this["Event"] === undefined)
                     return this["Label"];
                 else
-                    return this["Label"] + " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" /> "+this["Event"];
+                    return this["Label"] + " ! "+this["Event"];
 
             }
         }
@@ -326,7 +326,7 @@ function renderTemperature(data) {
                 if (this["Event"] === undefined)
                     return this["Label"];
                 else
-                    return this["Label"] + " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" /> "+this["Event"];
+                    return this["Label"] + " ! "+this["Event"];
             }
         }
     };
@@ -351,7 +351,7 @@ function renderFans(data) {
                 if (this["Event"] === undefined)
                     return this["Label"];
                 else
-                    return this["Label"] + " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" /> "+this["Event"];
+                    return this["Label"] + " ! "+this["Event"];
             }
         }
     };
@@ -376,7 +376,7 @@ function renderPower(data) {
                 if (this["Event"] === undefined)
                     return this["Label"];
                 else
-                    return this["Label"] + " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" /> "+this["Event"];
+                    return this["Label"] + " ! "+this["Event"];
             }
         }
     };
@@ -401,7 +401,7 @@ function renderCurrent(data) {
                 if (this["Event"] === undefined)
                     return this["Label"];
                 else
-                    return this["Label"] + " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" /> "+this["Event"];
+                    return this["Label"] + " ! "+this["Event"];
             }
         }
     };
