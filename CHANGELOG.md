@@ -14,6 +14,10 @@ phpSysInfo 3.1.15
 
  - [ADD] CoreOS to detected distros
 
+ - [FIX] Small CSS fix
+
+ - [UPD] Memory informations on Darwin systems
+
 phpSysInfo 3.1.14
 ----------------
 
