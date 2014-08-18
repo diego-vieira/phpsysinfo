@@ -18,6 +18,7 @@ phpSysInfo 3.1.15
  - [FIX] Small CSS fix
 
  - [UPD] Memory informations on Darwin systems
+ - [UPD] BAT plugin - Darwin support
 
 phpSysInfo 3.1.14
 ----------------
