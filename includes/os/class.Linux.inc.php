@@ -997,6 +997,50 @@ class Linux extends OS
         }
     }
 
+
+    /**
+     * Processes
+     *
+     * @return void
+     */
+    protected function _processes()
+    {
+        $process = glob('/proc/*/status', GLOB_NOSORT);
+        $total = count($process);
+        $this->sys->setProcesses($total);
+
+        $running = $sleeping = $stopped = $zombie = 0;
+        $buf = "";
+
+        for ($i = 0; $i < $total; $i++) {
+            if (CommonFunctions::rfts($process[$i], $buf, 0, 4096, false)) {
+
+                preg_match('/^State:\s+(\w)/m', $buf, $state);
+
+                switch ($state[1]) {
+                    case 'R':
+                        $running++;
+                        break;
+                    case 'S':
+                        $sleeping++;
+                        break;
+                    case 'T':
+                        $stopped++;
+                        break;
+                    case 'Z':
+                        $zombie++;
+                        break;
+                }
+            }
+        }
+
+        $this->sys->setProcessesRunning($running);
+        $this->sys->setProcessesSleeping($sleeping);
+        $this->sys->setProcessesStopped($stopped);
+        $this->sys->setProcessesZombie($zombie);
+    }
+
+
     /**
      * get the information
      *
@@ -1022,5 +1066,6 @@ class Linux extends OS
         $this->_memory();
         $this->_filesystems();
         $this->_loadavg();
+        $this->_processes();
     }
 }

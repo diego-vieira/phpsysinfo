@@ -210,6 +210,42 @@ class System
     private $_swapDevices = array();
 
     /**
+     * number of processes
+     *
+     * @var Integer
+     */
+    private $_processes = null;
+
+    /**
+     * number of running processes
+     *
+     * @var null
+     */
+    private $_processesRunning = null;
+
+    /**
+     * number of sleeping processes
+     *
+     * @var null
+     */
+    private $_processesSleeping = null;
+
+    /**
+     * number of stopped processes
+     *
+     * @var null
+     */
+    private $_processesStopped = null;
+
+    /**
+     * number of zombie processes
+     *
+     * @var null
+     */
+    private $_processesZombie = null;
+
+
+    /**
      * remove duplicate Entries and Count
      *
      * @param Array $arrDev list of HWDevices
@@ -1040,4 +1076,86 @@ class System
     {
         array_push($this->_swapDevices, $swapDevices);
     }
+
+    /**
+     * @return int
+     */
+    public function getProcesses()
+    {
+        return $this->_processes;
+    }
+
+    /**
+     * @param int $processTotal
+     */
+    public function setProcesses($processes)
+    {
+        $this->_processes = $processes;
+    }
+
+
+    /**
+     * @return null
+     */
+    public function getProcessesRunning()
+    {
+        return $this->_processesRunning;
+    }
+
+    /**
+     * @param null $processesRunning
+     */
+    public function setProcessesRunning($processesRunning)
+    {
+        $this->_processesRunning = $processesRunning;
+    }
+
+    /**
+     * @return null
+     */
+    public function getProcessesSleeping()
+    {
+        return $this->_processesSleeping;
+    }
+
+    /**
+     * @param null $processesSleeping
+     */
+    public function setProcessesSleeping($processesSleeping)
+    {
+        $this->_processesSleeping = $processesSleeping;
+    }
+
+    /**
+     * @return null
+     */
+    public function getProcessesStopped()
+    {
+        return $this->_processesStopped;
+    }
+
+    /**
+     * @param null $processesStopped
+     */
+    public function setProcessesStopped($processesStopped)
+    {
+        $this->_processesStopped = $processesStopped;
+    }
+
+    /**
+     * @return null
+     */
+    public function getProcessesZombie()
+    {
+        return $this->_processesZombie;
+    }
+
+    /**
+     * @param null $processesZombie
+     */
+    public function setProcessesZombie($processesZombie)
+    {
+        $this->_processesZombie = $processesZombie;
+    }
+
 }
