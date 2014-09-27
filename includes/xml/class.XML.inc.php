@@ -140,7 +140,6 @@ class XML
         //processes
         if ($this->_sys->getProcesses() !== null) {
             $vitals->addAttribute('Processes', $this->_sys->getProcesses());
-
         }
         if ($this->_sys->getProcessesRunning() !== null) {
             $vitals->addAttribute('ProcessesRunning', $this->_sys->getProcessesRunning());
@@ -154,7 +153,9 @@ class XML
         if ($this->_sys->getProcessesZombie() !== null) {
             $vitals->addAttribute('ProcessesZombie', $this->_sys->getProcessesZombie());
         }
-
+        if ($this->_sys->getProcessesOther() !== null) {
+            $vitals->addAttribute('ProcessesOther', $this->_sys->getProcessesOther());
+        }
         $vitals->addAttribute('OS', PSI_OS);
     }
 

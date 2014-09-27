@@ -244,6 +244,12 @@ class System
      */
     private $_processesZombie = null;
 
+    /**
+     * number of other processes
+     *
+     * @var null
+     */
+    private $_processesOther = null;
 
     /**
      * remove duplicate Entries and Count
@@ -1158,4 +1164,19 @@ class System
         $this->_processesZombie = $processesZombie;
     }
 
+    /**
+     * @return null
+     */
+    public function getProcessesOther()
+    {
+        return $this->_processesOther;
+    }
+
+    /**
+     * @param null $processesOther
+     */
+    public function setProcessesOther($processesOther)
+    {
+        $this->_processesOther = $processesOther;
+    }
 }
