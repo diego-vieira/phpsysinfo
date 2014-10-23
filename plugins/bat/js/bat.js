@@ -79,7 +79,7 @@ function bat_populate(xml) {
             bat_table.fnAddData([genlang(12, true, "BAT"), BatteryCondition, '&nbsp;']);
         }
         if (CycleCount != undefined) {
-            bat_table.fnAddData([genlang(12, true, "BAT"), CycleCount, '&nbsp;']);
+            bat_table.fnAddData([genlang(13, true, "BAT"), CycleCount, '&nbsp;']);
         }
 
         bat_show = true;
