@@ -12,7 +12,7 @@ phpSysInfo 4.0.0
 phpSysInfo 3.1.17
 ----------------
 
- - [UPD] BAT plugin - capacity unit, cycle count
+ - [UPD] BAT plugin - capacity unit, cycle count, FreeBSD support
  - [UPD] Brazilian Portuguese Translation pt-br.xml
 
 phpSysInfo 3.1.16
