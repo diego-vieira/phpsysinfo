@@ -12,7 +12,8 @@ phpSysInfo 4.0.0
 phpSysInfo 3.1.17
 ----------------
 
- - [UPD] BAT plugin - capacity unit
+ - [UPD] BAT plugin - capacity unit, cycle count
+ - [UPD] Brazilian Portuguese Translation pt-br.xml
 
 phpSysInfo 3.1.16
 ----------------
