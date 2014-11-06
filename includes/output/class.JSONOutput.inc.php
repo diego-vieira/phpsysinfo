@@ -492,35 +492,14 @@ class JSONOutput extends Output implements PSI_Interface_Output
     private function _buildMbinfo()
     {
         $mbinfo = array();
-        if ((sizeof(unserialize(PSI_MBINFO))>0) || PSI_HDDTEMP) {
+//        $temp = $fan = $volt = $power = $current = null;
+        
+        if (sizeof(unserialize(PSI_MBINFO))>0) {
+            foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
+                $mbinfo_data = new $mbinfoclass();
+                $mbinfo_detail = $mbinfo_data->getMBInfo();
 
-            $mbinfo['Temperature'] = array();
-
-            if (sizeof(unserialize(PSI_MBINFO))>0) {
-                foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
-                    $mbinfo_data = new $mbinfoclass();
-                    $mbinfo_detail = $mbinfo_data->getMBInfo();
-                    foreach ($mbinfo_detail->getMbTemp() as $dev) {
-
-                        $item = array(
-                            'Label' => $dev->getName(),
-                            'Value' => $dev->getValue()
-                        );
-                        if ($dev->getMax() !== null) {
-                            $item['Max'] = $dev->getMax();
-                        }
-                        if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
-                            $item['Event'] = $dev->getEvent();
-                        }
-
-                        $mbinfo['Temperature'][] = $item;
-                    }
-                }
-            }
-            if (PSI_HDDTEMP) {
-                $hddtemp = new HDDTemp();
-                $hddtemp_data = $hddtemp->getMBInfo();
-                foreach ($hddtemp_data->getMbTemp() as $dev) {
+                foreach ($mbinfo_detail->getMbTemp() as $dev) {
                     $item = array(
                         'Label' => $dev->getName(),
                         'Value' => $dev->getValue()
@@ -528,47 +507,82 @@ class JSONOutput extends Output implements PSI_Interface_Output
                     if ($dev->getMax() !== null) {
                         $item['Max'] = $dev->getMax();
                     }
+                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                        $item['Event'] = $dev->getEvent();
+                    }
 
                     $mbinfo['Temperature'][] = $item;
                 }
+
+                foreach ($mbinfo_detail->getMbFan() as $dev) {
+                    $item = array(
+                        'Label' => $dev->getName(),
+                        'Value' => $dev->getValue()
+                    );
+                    if ($dev->getMin() !== null) {
+                        $item['Min'] = $dev->getMin();
+                    }
+                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                        $item['Event'] = $dev->getEvent();
+                    }
+
+                    $mbinfo['Fans'][] = $item;
+                }
+
+                foreach ($mbinfo_detail->getMbVolt() as $dev) {
+                    $item = array(
+                        'Label' => $dev->getName(),
+                        'Value' => $dev->getValue()
+                    );
+                    if ($dev->getMin() !== null) {
+                        $item['Min'] = $dev->getMin();
+                    }
+                    if ($dev->getMax() !== null) {
+                        $item['Max'] = $dev->getMax();
+                    }
+                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                        $item['Event'] = $dev->getEvent();
+                    }
+
+                    $mbinfo['Voltage'][] = $item;
+                }
+
+                foreach ($mbinfo_detail->getMbPower() as $dev) {
+                    $item = array(
+                        'Label' => $dev->getName(),
+                        'Value' => $dev->getValue()
+                    );
+                    if ($dev->getMax() !== null) {
+                        $item['Max'] = $dev->getMax();
+                    }
+                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                        $item['Event'] = $dev->getEvent();
+                    }
+
+                    $mbinfo['Power'][] = $item;
+                }
+
+                foreach ($mbinfo_detail->getMbCurrent() as $dev) {
+                    $item = array(
+                        'Label' => $dev->getName(),
+                        'Value' => $dev->getValue()
+                    );
+                    if ($dev->getMax() !== null) {
+                        $item['Max'] = $dev->getMax();
+                    }
+                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                        $item['Event'] = $dev->getEvent();
+                    }
+
+                    $mbinfo['Current'][] = $item;
+                }
             }
         }
-
-        if (sizeof(unserialize(PSI_MBINFO))>0) {
-            foreach ($mbinfo_detail->getMbFan() as $dev) {
-                $item = array(
-                    'Label' => $dev->getName(),
-                    'Value' => $dev->getValue()
-                );
-                if ($dev->getMin() !== null) {
-                    $item['Min'] = $dev->getMin();
-                }
-                if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
-                    $item['Event'] = $dev->getEvent();
-                }
-
-                $mbinfo['Fans'][] = $item;
-            }
-
-            foreach ($mbinfo_detail->getMbVolt() as $dev) {
-                $item = array(
-                    'Label' => $dev->getName(),
-                    'Value' => $dev->getValue()
-                );
-                if ($dev->getMin() !== null) {
-                    $item['Min'] = $dev->getMin();
-                }
-                if ($dev->getMax() !== null) {
-                    $item['Max'] = $dev->getMax();
-                }
-                if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
-                    $item['Event'] = $dev->getEvent();
-                }
-
-                $mbinfo['Voltage'][] = $item;
-            }
-
-            foreach ($mbinfo_detail->getMbPower() as $dev) {
+        
+        if (PSI_HDDTEMP) {
+            $hddtemp = new HDDTemp();
+            $hddtemp_data = $hddtemp->getMBInfo();
+            foreach ($hddtemp_data->getMbTemp() as $dev) {
                 $item = array(
                     'Label' => $dev->getName(),
                     'Value' => $dev->getValue()
@@ -576,28 +590,9 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 if ($dev->getMax() !== null) {
                     $item['Max'] = $dev->getMax();
                 }
-                if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
-                    $item['Event'] = $dev->getEvent();
-                }
 
-                $mbinfo['Power'][] = $item;
+                $mbinfo['Temperature'][] = $item;
             }
-
-            foreach ($mbinfo_detail->getMbCurrent() as $dev) {
-                $item = array(
-                    'Label' => $dev->getName(),
-                    'Value' => $dev->getValue()
-                );
-                if ($dev->getMax() !== null) {
-                    $item['Max'] = $dev->getMax();
-                }
-                if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
-                    $item['Event'] = $dev->getEvent();
-                }
-
-                $mbinfo['Current'][] = $item;
-            }
-
         }
 
         if (count($mbinfo) > 0)
