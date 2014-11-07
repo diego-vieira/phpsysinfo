@@ -101,6 +101,7 @@ TEMP_FORMAT="c"
 ; - K8Temp     http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
 ; - PiTemp     No addon tool neded (Raspberry Pi - Linux)
 ; - OHM        http://openhardwaremonitor.org/ (WinNT)
+; - ThermalZone    No addon tool neded (WinNT)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMI: SENSOR_PROGRAM="LMSensors,IPMI"
