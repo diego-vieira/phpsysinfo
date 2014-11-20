@@ -9,6 +9,11 @@ phpSysInfo 4.0.0
  - [NEW] Rewrite the frontend with Bootstrap3 and Transparency (JSON)
  - [NEW] Frontend focused on information, much faster, much easier
 
+phpSysInfo 3.1.18
+----------------
+
+ - [ADD] Catalan Translation ca.xml
+
 phpSysInfo 3.1.17
 ----------------
 
