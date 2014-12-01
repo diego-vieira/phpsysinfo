@@ -2,7 +2,7 @@
   "name": "phpSysInfo",
   "version": "4.0.0",
   "dependencies": {
-    "bootstrap": "~3.0.0-rc1",
+    "bootstrap": "~3.3.1",
     "transparency": "~0.9.14"
   }
 }
