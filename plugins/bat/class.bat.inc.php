@@ -470,7 +470,9 @@ class BAT extends PSI_Plugin
         foreach ($this->_result as $bat_item) {
             $xmlbat = $this->xml->addChild("Bat");
             if (isset($bat_item['capacity']) && ($bat_item['capacity']>=0)) {
-                $xmlbat->addAttribute("Capacity", $bat_item['capacity']);
+                $xmlbat->addAttribute("DesignCapacity", 100);
+                $xmlbat->addAttribute("RemainingCapacity", $bat_item['capacity']);
+                $xmlbat->addAttribute("CapacityUnit", "%");
             } else {
                 if (isset($bat_item['design_capacity'])) {
                     $xmlbat->addAttribute("DesignCapacity", $bat_item['design_capacity']);
@@ -479,6 +481,9 @@ class BAT extends PSI_Plugin
                 }
                 if (isset($bat_item['remaining_capacity'])) {
                     $xmlbat->addAttribute("RemainingCapacity", $bat_item['remaining_capacity']);
+                }
+                if (isset($bat_item['capacity_unit'])) {
+                    $xmlbat->addAttribute("CapacityUnit", $bat_item['capacity_unit']);
                 }
             }
             if (isset($bat_item['design_voltage'])) {
@@ -516,9 +521,6 @@ class BAT extends PSI_Plugin
                 && (!isset($bat['capacity_unit']) || ($bat['capacity_unit'] != "???"))) {
                 $xmlbat->addAttribute("BatteryCondition", round(100*$bat_item['design_capacity']/$bat_item['design_capacity_max'])."%");
             }
-            if (isset($bat_item['capacity_unit'])) {
-                $xmlbat->addAttribute("CapacityUnit", $bat_item['capacity_unit']);
-            }
             if (isset($bat_item['cycle_count'])) {
                 $xmlbat->addAttribute("CycleCount", $bat_item['cycle_count']);
             }
@@ -533,7 +535,9 @@ class BAT extends PSI_Plugin
             $bat = array();
 
             if (isset($bat_item['capacity']) && ($bat_item['capacity']>=0)) {
-                $bat["Capacity"] = $bat_item['capacity'];
+                $bat["DesignCapacity"] = 100;
+                $bat["RemainingCapacity"] = $bat_item['capacity'];
+                $bat["CapacityUnit"] = "%";
             } else {
                 if (isset($bat_item['design_capacity'])) {
                     $bat["DesignCapacity"] = $bat_item['design_capacity'];
@@ -542,6 +546,9 @@ class BAT extends PSI_Plugin
                 }
                 if (isset($bat_item['remaining_capacity'])) {
                     $bat["RemainingCapacity"] = $bat_item['remaining_capacity'];
+                }
+                if (isset($bat_item['capacity_unit'])) {
+                    $bat["CapacityUnit"] = $bat_item['capacity_unit'];
                 }
             }
             if (isset($bat_item['design_voltage'])) {
@@ -580,14 +587,9 @@ class BAT extends PSI_Plugin
                 && (!isset($bat['capacity_unit']) || ($bat['capacity_unit'] != "???"))) {
                 $bat["BatteryCondition"] =  round(100*$bat_item['design_capacity']/$bat_item['design_capacity_max'])."%";
             }
-            if (isset($bat_item['capacity_unit'])) {
-                $bat["CapacityUnit"] = $bat_item['capacity_unit'];
-
-            }
             if (isset($bat_item['cycle_count'])) {
                 $bat["CycleCount"] = $bat_item['cycle_count'];
             }
-
 
             if (count($bat) > 0) {
                 return array('Bat' => $bat);
