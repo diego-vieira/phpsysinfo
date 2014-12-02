@@ -1,10 +1,6 @@
-html {
-    overflow-y: scroll;
-}
-
 body {
     font-size: 13px;
-    padding-top: 90px;
+    padding-top: 80px;
 }
 
 .progress {
@@ -29,4 +25,8 @@ body {
 
 .navbar-brand, .navbar-brand:hover {
     color: #fff;
+}
+
+.navbar-brand>img {
+    display: inline;
 }
