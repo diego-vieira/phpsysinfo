@@ -91,7 +91,7 @@ phpSysInfo 3.1.11
  - [ADD] IPMI and LMSensors currents information
  - [ADD] Plugin IPMIInfo - added powers and currents values
  - [ADD] Partial support of QNX
- 
+
  - [FIX] Reduce execution time on Linux systems when showing load average PR#47
 
 phpSysInfo 3.1.10
@@ -135,7 +135,7 @@ phpSysInfo 3.1.7
  - [ADD] Battery installation date for the UPS info
 
  - [UPD] Network interfaces infos and filesystems infos for FreeBSD
- - [UPD] Updated support of SunOS 
+ - [UPD] Updated support of SunOS
  - [UPD] Memory informations on Darwin systems
  - [UPD] BAT plugin - updated Linux support
  - [UPD] Updated HWSensors - OpenBSD sensor program

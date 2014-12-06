@@ -34,13 +34,19 @@ if (!extension_loaded("pcre")) {
     die("phpSysInfo requires the pcre extension to php in order to work properly.");
 }
 
-require_once APP_ROOT . '/includes/autoloader.inc.php';
+require_once APP_ROOT.'/includes/autoloader.inc.php';
 
-// Load configuration and perform system check
-try {
-    require_once APP_ROOT . '/read_config.php';
-} catch (Exception $e) {;}
-require_once APP_ROOT . '/systemcheck.php';
+// Load configuration
+require_once APP_ROOT.'/read_config.php';
+
+if (!defined('PSI_CONFIG_FILE') || !defined('PSI_DEBUG')) {
+    $tpl = new Template("/templates/errors.html");
+    $tpl->set('errors', array(array("message"=>"Configuration file '".PSI_CONFIG_FILE."' does not exist or is not readable by the webserver")));
+    echo $tpl->fetch();
+    exit(-1);
+}
+
+require_once APP_ROOT.'/systemcheck.php';
 
 if (Error::singleton()->errorsExist()) {
     $tpl = new Template("/templates/errors.html");

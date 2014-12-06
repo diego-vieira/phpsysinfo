@@ -98,7 +98,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
                 $this->error->addError("file_exists(class.".PSI_OS.".inc.php)", PSI_OS." is not currently supported");
             }
 
-            // check if there is a valid sensor configuration in config.php
+            // check if there is a valid sensor configuration in phpsysinfo.ini
             $foundsp = array();
             if ( defined('PSI_SENSOR_PROGRAM') && is_string(PSI_SENSOR_PROGRAM) ) {
                 if (preg_match(ARRAY_EXP, PSI_SENSOR_PROGRAM)) {
@@ -122,7 +122,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
              */
             define('PSI_MBINFO', serialize($foundsp));
 
-            // check if there is a valid hddtemp configuration in config.php
+            // check if there is a valid hddtemp configuration in phpsysinfo.ini
             $found = false;
             if (PSI_HDD_TEMP !== false) {
                 $found = true;
@@ -134,7 +134,7 @@ class JSONOutput extends Output implements PSI_Interface_Output
              */
             define('PSI_HDDTEMP', $found);
 
-            // check if there is a valid ups configuration in config.php
+            // check if there is a valid ups configuration in phpsysinfo.ini
             $found = false;
             if (PSI_UPS_PROGRAM !== false) {
                 if (!file_exists(APP_ROOT.'/includes/ups/class.'.strtolower(PSI_UPS_PROGRAM).'.inc.php')) {
