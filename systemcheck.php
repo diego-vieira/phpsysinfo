@@ -39,6 +39,6 @@ if ($include_path != ".") {
 }
 
 // popen mode check
-if (defined("PSI_MODE_POPEN") && psi_mode_popen === true) {
+if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
     Error::singleton()->adderror("warn", "installed version of php does not support proc_open() function, popen() is used");
 }
