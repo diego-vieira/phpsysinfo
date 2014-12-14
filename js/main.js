@@ -94,14 +94,20 @@ function renderHardware(data) {
     for (hw_type in data["Hardware"]) {
         if (hw_type != "CPU") {
             try {
+                count = 0;
                 hw_data = [];
                 if (data["Hardware"][hw_type].length > 0) {
                     for (i=0; i < data["Hardware"][hw_type].length; i++) {
                         hw_data.push(data["Hardware"][hw_type][i]);
+                        if (data["Hardware"][hw_type][i]["Count"] !== undefined) {
+                            count+=parseInt(data["Hardware"][hw_type][i]["Count"]);
+                        } else {
+                            count++;
+                        }
                     }
                 }
                 if (hw_data.length > 0) {
-                    $("#hardware-" + hw_type + " span").html(hw_data.length);
+                    $("#hardware-" + hw_type + " span").html(count);
                     $("#hw-dialog-"+hw_type+" ul").render(hw_data, hw_directives);
                     $("#hardware-"+hw_type).show();
                 }
