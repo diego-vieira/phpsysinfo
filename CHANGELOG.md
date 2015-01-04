@@ -13,7 +13,7 @@ phpSysInfo 3.1.18
 ----------------
 
  - [ADD] Catalan Translation ca.xml
- - [ADD] Mer to detected distros (core of Sailfish OS)
+ - [ADD] Mer (core of Sailfish OS) and Tizen to detected distros
 
  - [UPD] German Translation de.xml
 
